@@ -12,26 +12,26 @@
                     注册
                 </el-form-item>
                 <el-form-item>
-                    <el-input placeholder="请输入手机号" style="margin-top:40px;width:100%"></el-input>
+                    <el-input placeholder="请输入手机号" style="margin-top:40px;width:100%" v-model="registeParam.phone"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-input placeholder="请输入验证码" ></el-input>
+                    <el-input placeholder="请输入验证码" v-model="checkCode"></el-input>
                     <div class="code" @click="refreshCode">
                         <SIdentify :identifyCode="identifyCode" :backgroundColorMin="255" :backgroundColorMax="255"></SIdentify>
                     </div>
                 </el-form-item>
                 <el-form-item>
-                    <el-input placeholder="请输入手机验证码"></el-input>
-                    <div class="code" @click="refreshCode">
-                       <el-button type="primary">获取手机验证码</el-button>
+                    <el-input placeholder="请输入手机验证码" v-model="registeParam.code"></el-input>
+                    <div class="code">
+                       <el-button type="primary" @click="getCheckMsg">获取手机验证码</el-button>
                     </div>
                 </el-form-item>
-                <el-form-item>
+                <!-- <el-form-item>
                     <el-input placeholder="登录密码" type="password" style="width:100%"></el-input>
-                </el-form-item>
+                </el-form-item> -->
                 <el-checkbox v-model="checked"><el-button type="text">《易租网服务协议》</el-button></el-checkbox>
                 <br /><br /><br />
-                <el-button class="registerBtn">注册</el-button>
+                <el-button class="registerBtn" @click="registerUser">注册</el-button>
             </el-form>
         </div>
     </div>
@@ -39,6 +39,7 @@
 
 <script>
 import SIdentify from '../../components/identify'
+import {sendCheckMsg,register} from '@/api/user'
 export default {
     components: {SIdentify},  
     data(){
@@ -49,8 +50,15 @@ export default {
                 height:'900px'
             },
             identifyCodes: "1234567890",
-            identifyCode: "",
+            identifyCode: "",//验证码
             checked:false,
+            checkCode:"",
+            checkCodeUsed:true,
+            registeParam:{
+                phone:"",
+                msgId:"",
+                code:"",
+            },
         }
     },
     mounted(){
@@ -66,6 +74,7 @@ export default {
             this.makeCode(this.identifyCodes, 4);
         },
         makeCode(o, l) {
+            this.checkCodeUsed = false;
             for (let i = 0; i < l; i++) {
                 this.identifyCode += this.identifyCodes[
                 this.randomNum(0, this.identifyCodes.length)
@@ -76,6 +85,54 @@ export default {
         backToHome(){
             this.$router.push('/index')
         },
+        getCheckMsg(){
+            if(this.registeParam.phone == null || this.registeParam.phone == ""){
+                this.$message('手机号不能为空');
+                return;
+            }
+            if( this.checkCode == "" || this.checkCode != this.identifyCode){
+                this.$message('验证码错误');
+                console.log("验证码错误")
+                return;
+            }
+            if( this.checkCodeUsed){
+                this.$message('图形验证码失效，请刷新图形验证码');
+                return;
+            }
+        sendCheckMsg({phone:this.registeParam.phone})
+            .then(res =>{
+                console.log(res);
+                this.registeParam.msgId = res.resultMessage;
+                console.log(this.registeParam)
+                // this.checkCodeUsed = true;
+            })
+        },
+        registerUser(){
+            if(this.registeParam.phone == null || this.registeParam.phone == ""){
+                this.$message('手机号不能为空');
+                return;
+            }
+            else if( this.checkCode == "" || this.checkCode != this.identifyCode){
+                this.$message('验证码错误');
+                console.log("验证码错误")
+                return;
+            }
+            else if( this.registeParam.code == ""){
+                this.$message('手机验证码未填');
+                console.log("手机验证码未填")
+                return;
+            }
+            if( this.checkCodeUsed){
+                this.$message('图形验证码失效，请刷新图形验证码');
+                return;
+            }
+            register(this.registeParam)
+                .then(res =>{
+                    console.log(res);
+                    this.checkCodeUsed = true;
+                })
+
+        }
     }
 }
 </script>

@@ -30,3 +30,12 @@ export function loginOut() {
   })
 }
 
+export function subways(param) {
+  return fetch({
+    url: '/baiduMap/place/v2/search',
+    method: 'get',
+    params:param,
+    // baseURL:"http://api.map.baidu.com"
+  })
+}
+

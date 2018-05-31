@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Message,Notification} from 'element-ui'
 import router from '@/router/index'
 
-const SUCCESS = 0
+const SUCCESS = "200"
 const URL_NOT_FOUND = 404
 const SYSTEM_EXCEPTION = -9999
 const NOT_LOGIN = -9001
@@ -16,7 +16,7 @@ const errMessage = {
   '-9001': '未登录',
   '-9002': '登录失败，用户名或密码错误',
   '-9003': '无访问权限',
-  '-1': '业务异常'
+  '500': '业务异常'
 }
 
 // 创建axios实例
@@ -67,16 +67,16 @@ service.interceptors.response.use(
       return
     }
     else {
-      // Message({
+      Message({
+        message: errMessage[response.data.resultCode] + ' ' + response.data.resultMessage || '',
+        type: 'error',
+        duration: 5 * 1000
+      })
+      // Notification.error({
+      //   title: '错误',
       //   message: errMessage[response.data.resultCode] + ' ' + response.data.errorMsg || '',
-      //   type: 'error',
-      //   duration: 5 * 1000
-      // })
-      Notification.error({
-        title: '错误',
-        message: errMessage[response.data.resultCode] + ' ' + response.data.errorMsg || '',
-        duration: 0
-      });
+      //   duration: 0
+      // });
       return Promise.reject()
     }
   },

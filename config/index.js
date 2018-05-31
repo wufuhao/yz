@@ -11,15 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/data-up': {
-        // target: 'http://192.168.50.8:8082',
-       
-        //target: 'http://wx.100wit.com', 
-        target: 'http://127.0.0.1:8080',
-        // target: 'http://192.168.50.2:8080',
-       
+      '/yz': {
+        target: 'http://192.168.253.5:8085',
+        pathRewrite: {'^/yz' : '/'}, // 重写路径
         changeOrigin: true
-      }
+      },
     },
 
     // Various Dev Server settings

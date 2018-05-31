@@ -15,11 +15,21 @@
         </div>
 
         <div class="searchDiv">
-            <el-select style="float:left">
-                <el-option value="gz">海珠区</el-option>
-                <el-option value="fs">越秀区</el-option>
+            <el-select style="float:left" v-model="queryParam.district">
+                <el-option value="" label="不限"></el-option>
+                <el-option value="3" label="海珠区"></el-option>
+                <el-option value="5" label="越秀区"></el-option>
+                <el-option value="6" label="荔湾区"></el-option>
+                <el-option value="1" label="天河区"></el-option>
+                <el-option value="2" label="白云区"></el-option>
+                <el-option value="7" label="黄埔区"></el-option>
+                <el-option value="4" label="番禺区"></el-option>
+                <el-option value="8" label="花都区"></el-option>
+                <el-option value="10" label="南沙区"></el-option>
+                <el-option value="11" label="从化区"></el-option>
+                <el-option value="9" label="增城区"></el-option>
             </el-select>
-            <el-input style="float:left;width:50%"></el-input>
+            <el-input id="suggestId" style="float:left;width:50%"></el-input>
             <el-button @click="toSearch">搜索</el-button>
         </div>
 
@@ -91,20 +101,15 @@
             </div>
         </div>
 
-        <div class="button">
-            <ul style="width:100px">
-                <li><a>关于我们</a></li>
-                <li><a>联系我们</a></li>
-                <li><a>招贤纳士</a></li>
-                <li><a>法律声明</a></li>
-                <li><a>友情链接</a></li>
-                <li><a>支付方式</a></li>
-                <li><a>配送方式</a></li>
-                <li><a>服务声明</a></li>
-                <li><a>广告声明</a></li>
-            </ul>
+        <div class="buttom">
+            <el-row :gutter="20">
+                <el-col :span="6"><el-button type="text">关于易租</el-button></el-col>
+                <el-col :span="6"><el-button type="text">联系我们</el-button></el-col>
+                <el-col :span="6"><el-button type="text">用户协议</el-button></el-col>
+                <el-col :span="6"><el-button type="text">版权声明</el-button></el-col>
+            </el-row> 
         </div>
-        
+        <div class="baidumap" id="XSDFXPage" hidden></div>
     </div>
 </template>
 
@@ -112,18 +117,42 @@
 export default {
     data(){
         return{
-            
+            queryParam:{
+                district:'',
+                queryName:'',
+            }
         }
     },
     mounted(){
+        this.createBaiduMap();
     },
     methods:{
        toDetails(){
            console.log("点击跳到详细");
        },
        toSearch(){
+           sessionStorage.district = this.queryParam.district;
+           sessionStorage.queryName = this.queryParam.queryName;
            this.$router.push('/room/search')
-       }
+       },
+       createBaiduMap() {
+            // 百度地图API功能
+            // 在指定div位置创建Map实例
+            var map = new BMap.Map("XSDFXPage",{enableMapClick:true});
+
+            var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+                {"input" : "suggestId",
+                "location" : map
+            });
+
+            var myValue;
+            var _this = this;
+            ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+            var _value = e.item.value;
+                myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+                _this.queryParam.queryName = myValue;
+            });
+        },
        
        
     }
@@ -146,7 +175,7 @@ export default {
     }
     .searchDiv{
         position:absolute;
-        z-index:2;
+        /* z-index:2; */
         margin-top:400px;
         padding-left: 25%;
         padding-right: 25%;
@@ -156,7 +185,7 @@ export default {
     }
     .block{
         position:absolute;
-        z-index:1;
+        z-index:0;
         width:100%;
         /* margin-top:60px; */
     }
@@ -166,7 +195,7 @@ export default {
     }
     .el-menu-top{
         position:absolute;
-        z-index:2;
+        /* z-index:2; */
         width:100%;
         height:60px; 
         background-color:rgba(0,0,0,0.5) !important;
@@ -174,21 +203,21 @@ export default {
     .hot{
         margin-top: 600px;
         position:absolute;
-        z-index:3;
+        /* z-index:3; */
         text-align: center;
         width: 100%;
     }
     .newHouse{
         margin-top: 1100px;
         position:absolute;
-        z-index:3;
+        /* z-index:3; */
         text-align: center;
         width: 100%;
     }
-    .button{
+    .buttom{
         margin-top: 1600px;
         position:absolute;
-        z-index:3;
+        /* z-index:3; */
         text-align: center;
         width: 100%;
         background-color:rgba(0,0,0,0.1) ;
