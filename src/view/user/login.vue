@@ -11,26 +11,29 @@
                 <el-button style="width:45%" type="text" @click="generalLogin = true">普通方式登录</el-button>
                 <el-button style="width:45%" type="text" @click="generalLogin = false">手机动态密码登录</el-button>
             </el-form-item>
-            <el-form-item>
+            <el-form-item v-if="generalLogin">
                 <el-input placeholder="邮箱/手机号/用户名" class="longInput"></el-input>
+            </el-form-item>
+            <el-form-item v-if="!generalLogin">
+                <el-input placeholder="手机号" class="longInput" v-model="loginByPhoneParam.phone"></el-input>
             </el-form-item>
             <el-form-item v-if="generalLogin">
                 <el-input placeholder="密码" class="longInput"></el-input>
             </el-form-item>
             <el-form-item  v-if="!generalLogin" style="display: block;">
-                <el-input placeholder="请输入手机动态密码" class="shortInput"></el-input>
-                <div class="getPhonePwd" @click="refreshCode">
-                    <el-button type="primary">获取手机验证码</el-button>
+                <el-input placeholder="请输入手机动态密码" class="shortInput" v-model="loginByPhoneParam.code"></el-input>
+                <div class="getPhonePwd">
+                    <el-button type="primary" @click="getCheckMsg">获取手机验证码</el-button>
                 </div>
             </el-form-item>
             <el-form-item>
-                <el-input placeholder="请输入验证码" class="shortInput"></el-input>
+                <el-input placeholder="请输入验证码" class="shortInput" v-model="checkedCode"></el-input>
                 <div class="code" @click="refreshCode">
                     <SIdentify :identifyCode="identifyCode" :backgroundColorMin="255" :backgroundColorMax="255"></SIdentify>
                 </div>
             </el-form-item>
             <el-form-item>
-                <el-checkbox v-model="checked" class="loginInWeek"><el-button type="text">7天免登录</el-button></el-checkbox>
+                <!-- <el-checkbox v-model="checked" class="loginInWeek"><el-button type="text">7天免登录</el-button></el-checkbox> -->
                 <el-button type="text" class="forgetPwd">忘记密码</el-button>
             </el-form-item>
             <el-form-item>
@@ -43,6 +46,7 @@
 
 <script>
 import SIdentify from '../../components/identify'
+import {sendCheckMsg,register,loginByPhone} from '@/api/user'
 export default {
     components: {SIdentify},  
     data(){
@@ -54,9 +58,16 @@ export default {
             },
             identifyCodes: "1234567890",
             identifyCode: "",
+            checkedCode:'',
             checked:false,
             generalLogin:true,
             checked:true,
+            checkedCodeUsed:true,
+            loginByPhoneParam:{
+                phone:'',
+                msgId:'',
+                code:''
+            },
         }
     },
     mounted(){
@@ -65,7 +76,50 @@ export default {
     },
     methods:{
         login(){
-           
+           if(this.checkedCodeUsed){
+               this.$message('图形验证码已过期，请刷新图形验证码后再试')
+               return;
+           }
+           if(this.checkedCode == ''){
+               this.$message('图形验证码不能为空')
+               return;
+           }
+           if(this.checkedCode != this.identifyCode){
+               this.$message('图形验证码错误')
+               return;
+           }
+
+           if(this.generalLogin){
+
+           }else{
+               if(this.loginByPhoneParam.phone == ''){
+                   this.$message('手机号不能为空');
+                   return;
+               }
+               if(this.loginByPhoneParam.code == ''){
+                   this.$message('手机验证码不能为空');
+                   return;
+               }
+               loginByPhone(this.loginByPhoneParam)
+                .then(res =>{
+                    if(res.resultCode == "200"){
+                        sessionStorage.user = res.busObj.uId;
+                        this.$router.push('/index');
+                    }
+                    this.checkedCodeUsed = true;
+                })
+           }
+        },
+        getCheckMsg(){
+            if(this.loginByPhoneParam.phone == null || this.loginByPhoneParam.phone == ""){
+                this.$message('手机号不能为空');
+                return;
+            }
+            sendCheckMsg({phone:this.loginByPhoneParam.phone})
+            .then(res =>{
+                this.loginByPhoneParam.msgId = res.resultMessage;
+                console.log(this.loginByPhoneParam);
+            })
         },
         randomNum(min, max) {
             return Math.floor(Math.random() * (max - min) + min);
@@ -75,6 +129,7 @@ export default {
             this.makeCode(this.identifyCodes, 4);
         },
         makeCode(o, l) {
+            this.checkedCodeUsed = false;
             for (let i = 0; i < l; i++) {
                 this.identifyCode += this.identifyCodes[
                 this.randomNum(0, this.identifyCodes.length)

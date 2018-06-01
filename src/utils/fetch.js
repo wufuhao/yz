@@ -77,7 +77,7 @@ service.interceptors.response.use(
       //   message: errMessage[response.data.resultCode] + ' ' + response.data.errorMsg || '',
       //   duration: 0
       // });
-      return Promise.reject()
+      return Promise.reject(response)
     }
   },
   error => {

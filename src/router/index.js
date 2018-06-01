@@ -1,18 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
 import top from '@/view/layout/top'
-import layout from '@/view/layout/layout'
+import userLayout from '@/view/layout/userLayout'
+import backgroundLayout from '@/view/layout/backgroundLayout'
 import index from '@/view/index'
 
 import register from '@/view/user/register'
 import login from '@/view/user/login'
 import userInfo from '@/view/user/userInfo'
 import userLike from '@/view/user/userLike'
+import userPublish from '@/view/user/userPublish'
+import userComment from '@/view/user/userComment'
+import userFoot from '@/view/user/userFoot'
+import userTipoff from '@/view/user/userTipoff'
 import changePassword from '@/view/user/chgPwd'
+
+
 import publishNewRoom from '@/view/room/publishNewRoom'
 import roomSearch from '@/view/room/roomSearch'
+import roomDetail from '@/view/room/roomDetail'
 
+
+import backgroundLogin from '@/view/background/login'
 
 Vue.use(Router)
 
@@ -40,10 +49,14 @@ export default new Router({
     {
       path:'/user',
       name:'用户',
-      component:layout,
+      component:userLayout,
       children:[
         {path:'info',name:'个人信息',component:userInfo},
         {path:'like',name:'我的收藏',component:userLike},
+        {path:'publish',name:'我的发布',component:userPublish},
+        {path:'comment',name:'我的评论',component:userComment},
+        {path:'tipoff',name:'我的评论',component:userTipoff},
+        {path:'foot',name:'我的足迹',component:userFoot},
         {path:'changePassword',name:'修改密码',component:changePassword},
         {path:'publishNewRoom',name:'房源发布',component:publishNewRoom},
       ]
@@ -54,7 +67,18 @@ export default new Router({
       component:top,
       children:[
         {path:'search',name:'搜索',component:roomSearch},
+        {path:'detail',name:'详情',component:roomDetail},
       ]
     },
+    {
+      path:'/background',
+      name:'后台',
+      component:backgroundLayout
+    },
+    {
+      path:'/background/Login',
+      name:'管理端登录',
+      component:backgroundLogin
+    }
   ]
 })

@@ -14,4 +14,12 @@ export function sendCheckMsg(phoneNumber) {
       method: 'get',
       params: phoneNumber
     })
-  }
+}
+
+export function loginByPhone(params) {
+  return fetch({
+    url: '/yz/usr/loginByPhone',
+    method: 'post',
+    data: params
+  })
+}

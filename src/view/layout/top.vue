@@ -51,16 +51,9 @@ export default {
         }
     },
     mounted(){
-        this.init();
+        this.user = sessionStorage.user;
     },
     methods:{
-        init(){
-            this.user = {
-                name:'邬先生',
-                age:22,
-                sex:'男'
-            }
-        },
         toUserInfo(){
             this.$router.push('/user/info');
         },

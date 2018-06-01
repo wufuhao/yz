@@ -76,19 +76,19 @@ export default {
                     child:[
                         {
                             name:'我的发布',
-                            url:'/user/myRoom'
+                            url:'/user/publish'
                         },
                         {
                             name:'我的收藏',
                             url:'/user/like'
                         },
                         {
-                            name:'我的点评',
-                            url:'/user/myRoom'
+                            name:'我的评论',
+                            url:'/user/comment'
                         },
                         {
-                            name:'我的举报',
-                            url:'/user/myRoom'
+                            name:'我的足迹',
+                            url:'/user/foot'
                         },
                     ]
                 },
@@ -113,16 +113,9 @@ export default {
         }
     },
     mounted(){
-        this.init();
+        this.user = sessionStorage.user;
     },
     methods:{
-        init(){
-            this.user = {
-                name:'邬先生',
-                age:22,
-                sex:'男'
-            }
-        },
         toUserInfo(){
             this.$router.push('/user/info');
         },
