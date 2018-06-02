@@ -23,3 +23,11 @@ export function loginByPhone(params) {
     data: params
   })
 }
+
+export function getMyPublish(params) {
+  return fetch({
+    url: '/yz/house/houseInfo/getMyPage',
+    method: 'post',
+    data: params
+  })
+}

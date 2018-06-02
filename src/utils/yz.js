@@ -1,0 +1,861 @@
+//地铁字典
+export function findSubwayNameByCode(code){
+    var subwayStations = [
+        {
+            code:'1',
+            name:"1号线",
+            childs:[
+                {"code":"1_01","name":"西朗"},
+                {"code":"1_02","name":"坑口"},
+                {"code":"1_03","name":"花地湾"},
+                {"code":"1_04","name":"芳村"},
+                {"code":"1_05","name":"黄沙"},
+                {"code":"1_06","name":"长寿路"},
+                {"code":"1_07","name":"陈家祠"},
+                {"code":"1_08","name":"西门口"},
+                {"code":"1_09","name":"公园前"},
+                {"code":"1_10","name":"农讲所"},
+                {"code":"1_11","name":"烈士陵园"},
+                {"code":"1_12","name":"东山口"},
+                {"code":"1_13","name":"杨箕"},
+                {"code":"1_14","name":"体育西路"},
+                {"code":"1_15","name":"体育中心"},
+                {"code":"1_16","name":"广州东站"}
+            ]
+        },
+        {
+            code:'2',
+            name:"2号线",
+            childs:[
+                {"code":"2_01","name":"广州南站"},
+                {"code":"2_02","name":"石壁"},
+                {"code":"2_03","name":"会江"},
+                {"code":"2_04","name":"南浦"},
+                {"code":"2_05","name":"洛溪"},
+                {"code":"2_06","name":"南洲"},
+                {"code":"2_07","name":"东晓南"},
+                {"code":"2_08","name":"江泰路"},
+                {"code":"2_09","name":"昌岗"},
+                {"code":"2_10","name":"江南西"},
+                {"code":"2_11","name":"市二宫"},
+                {"code":"2_12","name":"海珠广场"},
+                {"code":"2_13","name":"公园前"},
+                {"code":"2_14","name":"纪念堂"},
+                {"code":"2_15","name":"越秀公园"},
+                {"code":"2_16","name":"广州火车站"},
+                {"code":"2_17","name":"三元里"},
+                {"code":"2_18","name":"飞翔公园"},
+                {"code":"2_19","name":"白云公园"},
+                {"code":"2_20","name":"白云文化广场"},
+                {"code":"2_21","name":"萧岗"},
+                {"code":"2_22","name":"江夏"},
+                {"code":"2_23","name":"黄边"},
+                {"code":"2_24","name":"嘉禾望岗"}
+            ]
+        },
+        {
+            code:'3',
+            name:"3号线",
+            childs:[
+                {"code":"3_01","name":"番禺广场"},
+                {"code":"3_02","name":"市桥"},
+                {"code":"3_03","name":"汉溪长隆"},
+                {"code":"3_04","name":"大石"},
+                {"code":"3_05","name":"厦滘"},
+                {"code":"3_06","name":"沥滘"},
+                {"code":"3_07","name":"大塘"},
+                {"code":"3_08","name":"客村"},
+                {"code":"3_09","name":"广州塔"},
+                {"code":"3_10","name":"珠江新城"},
+                {"code":"3_11","name":"体育西路"},
+                {"code":"3_12","name":"石牌桥"},
+                {"code":"3_13","name":"岗顶"},
+                {"code":"3_14","name":"华师"},
+                {"code":"3_15","name":"五山"},
+                {"code":"3_16","name":"天河客运站"}
+            ]
+        },
+        {
+            code:'3N',
+            name:"3号线(北延段)",
+            childs:[
+                {"code":"3N_11","name":"体育西路"},
+                {"code":"3N_12","name":"林和西"},
+                {"code":"3N_13","name":"广州东站"},
+                {"code":"3N_14","name":"燕塘"},
+                {"code":"3N_15","name":"梅花园"},
+                {"code":"3N_16","name":"京溪南方医院"},
+                {"code":"3N_17","name":"同和"},
+                {"code":"3N_18","name":"永泰"},
+                {"code":"3N_19","name":"白云大道北"},
+                {"code":"3N_20","name":"嘉禾望岗"},
+                {"code":"3N_21","name":"龙归"},
+                {"code":"3N_22","name":"人和"},
+                {"code":"3N_23","name":"高增"},
+                {"code":"3N_24","name":"机场南（1号航站楼）"},
+                {"code":"3N_25","name":"机场北（2号航站楼）"}
+            ]
+        },
+        {
+            code:'4',
+            name:"4号线",
+            childs:[
+                {"code":"4_01","name":"南沙客运港"},
+                {"code":"4_02","name":"南横"},
+                {"code":"4_03","name":"塘坑"},
+                {"code":"4_04","name":"大涌"},
+                {"code":"4_05","name":"广隆"},
+                {"code":"4_06","name":"飞沙角"},
+                {"code":"4_07","name":"金洲"},
+                {"code":"4_08","name":"蕉门"},
+                {"code":"4_09","name":"黄阁"},
+                {"code":"4_10","name":"黄阁汽车城"},
+                {"code":"4_11","name":"庆盛"},
+                {"code":"4_12","name":"东涌"},
+                {"code":"4_13","name":"低涌"},
+                {"code":"4_14","name":"海傍"},
+                {"code":"4_15","name":"石碁"},
+                {"code":"4_16","name":"暂无"},
+                {"code":"4_17","name":"新造"},
+                {"code":"4_18","name":"大学城南"},
+                {"code":"4_19","name":"大学城北"},
+                {"code":"4_20","name":"官洲"},
+                {"code":"4_21","name":"万胜围"},
+                {"code":"4_22","name":"车陂南"},
+                {"code":"4_23","name":"车陂"},
+                {"code":"4_24","name":"黄村"}
+            ]
+        },
+        {
+            code:'5',
+            name:"5号线",
+            childs:[
+                {"code":"5_01","name":"滘口"},
+                {"code":"5_02","name":"坦尾"},
+                {"code":"5_03","name":"中山八"},
+                {"code":"5_04","name":"西场"},
+                {"code":"5_05","name":"西村"},
+                {"code":"5_06","name":"广州火车站"},
+                {"code":"5_07","name":"小北"},
+                {"code":"5_08","name":"淘金"},
+                {"code":"5_09","name":"区庄"},
+                {"code":"5_10","name":"动物园"},
+                {"code":"5_11","name":"杨箕"},
+                {"code":"5_12","name":"五羊邨"},
+                {"code":"5_13","name":"珠江新城"},
+                {"code":"5_14","name":"猎德"},
+                {"code":"5_15","name":"潭村"},
+                {"code":"5_16","name":"员村"},
+                {"code":"5_17","name":"科韵路"},
+                {"code":"5_18","name":"车陂南"},
+                {"code":"5_19","name":"东圃"},
+                {"code":"5_20","name":"三溪"},
+                {"code":"5_21","name":"鱼珠"},
+                {"code":"5_22","name":"大沙地"},
+                {"code":"5_23","name":"大沙东"},
+                {"code":"5_24","name":"文冲"}
+            ]
+        },
+        {
+            code:'6',
+            name:"6号线",
+            childs:[
+                {"code":"6_01","name":"浔峰岗"},
+                {"code":"6_02","name":"横沙"},
+                {"code":"6_03","name":"沙贝"},
+                {"code":"6_04","name":"河沙"},
+                {"code":"6_05","name":"坦尾"},
+                {"code":"6_06","name":"如意坊"},
+                {"code":"6_07","name":"黄沙"},
+                {"code":"6_08","name":"文化公园"},
+                {"code":"6_09","name":"一德路"},
+                {"code":"6_10","name":"海珠广场"},
+                {"code":"6_11","name":"北京路"},
+                {"code":"6_12","name":"团一大广场"},
+                {"code":"6_13","name":"东湖"},
+                {"code":"6_14","name":"东山口"},
+                {"code":"6_15","name":"区庄"},
+                {"code":"6_16","name":"黄花岗"},
+                {"code":"6_17","name":"沙河顶"},
+                {"code":"6_18","name":"暂无"},
+                {"code":"6_19","name":"天平架"},
+                {"code":"6_20","name":"燕塘"},
+                {"code":"6_21","name":"天河客运站"},
+                {"code":"6_22","name":"长湴"},
+                {"code":"6_23","name":"植物园"},
+                {"code":"6_24","name":"龙洞"},
+                {"code":"6_25","name":"柯木塱"},
+                {"code":"6_26","name":"高塘石"},
+                {"code":"6_27","name":"黄陂"},
+                {"code":"6_28","name":"金峰"},
+                {"code":"6_29","name":"暹岗"},
+                {"code":"6_30","name":"苏元"},
+                {"code":"6_31","name":"萝岗"},
+                {"code":"6_32","name":"香雪"}
+            ]
+        },
+        {
+            code:'7',
+            name:"7号线",
+            childs:[
+                {"code":"7_01","name":"广州南站"},
+                {"code":"7_02","name":"石壁"},
+                {"code":"7_03","name":"谢村"},
+                {"code":"7_04","name":"钟村"},
+                {"code":"7_05","name":"汉溪长隆"},
+                {"code":"7_06","name":"南村万博"},
+                {"code":"7_07","name":"员岗"},
+                {"code":"7_08","name":"板桥"},
+                {"code":"7_09","name":"大学城南"}
+            ]
+        },
+        {
+            code:'8',
+            name:"8号线",
+            childs:[
+                {"code":"8_16","name":"凤凰新村"},
+                {"code":"8_17","name":"沙园"},
+                {"code":"8_18","name":"宝岗大道"},
+                {"code":"8_19","name":"昌岗"},
+                {"code":"8_20","name":"晓港"},
+                {"code":"8_21","name":"中大"},
+                {"code":"8_22","name":"鹭江"},
+                {"code":"8_23","name":"客村"},
+                {"code":"8_24","name":"赤岗"},
+                {"code":"8_25","name":"磨碟沙"},
+                {"code":"8_26","name":"新港东"},
+                {"code":"8_27","name":"琶洲"},
+                {"code":"8_28","name":"万胜围"}
+            ]
+        },
+        {
+            code:'9',
+            name:"9号线",
+            childs:[
+                {"code":"9_01","name":"飞鹅岭"},
+                {"code":"9_02","name":"花都汽车城"},
+                {"code":"9_03","name":"广州北站"},
+                {"code":"9_04","name":"花城路"},
+                {"code":"9_05","name":"花果山公园"},
+                {"code":"9_06","name":"花都广场"},
+                {"code":"9_07","name":"马鞍山公园"},
+                {"code":"9_08","name":"莲塘"},
+                {"code":"9_09","name":"清㘵"},
+                {"code":"9_10","name":"暂无"},
+                {"code":"9_11","name":"高增"}
+            ]
+        },
+        {
+            code:'13',
+            name:"13号线",
+            childs:[
+                {"code":"13_01","name":"鱼珠"},
+                {"code":"13_02","name":"裕丰围"},
+                {"code":"13_03","name":"双岗"},
+                {"code":"13_04","name":"南海神庙"},
+                {"code":"13_05","name":"夏园"},
+                {"code":"13_06","name":"南岗"},
+                {"code":"13_07","name":"沙村"},
+                {"code":"13_08","name":"白江"},
+                {"code":"13_09","name":"新塘"},
+                {"code":"13_10","name":"官湖"},
+                {"code":"13_11","name":"新沙"}
+            ]
+        },
+        {
+            code:'14',
+            name:"14号线",
+            childs:[
+                {"code":"14_01","name":"新和"},
+                {"code":"14_02","name":"红卫"},
+                {"code":"14_03","name":"新南"},
+                {"code":"14_04","name":"枫下"},
+                {"code":"14_05","name":"知识城"},
+                {"code":"14_06","name":"何棠下"},
+                {"code":"14_07","name":"旺村"},
+                {"code":"14_08","name":"汤村"},
+                {"code":"14_09","name":"镇龙北"},
+                {"code":"14_10","name":"镇龙"}
+            ]
+        },
+        {
+            code:'GF',
+            name:"广佛线",
+            childs:[
+                {"code":"GF_01","name":"新城东"},
+                {"code":"GF_02","name":"东平"},
+                {"code":"GF_03","name":"世纪莲"},
+                {"code":"GF_04","name":"澜石"},
+                {"code":"GF_05","name":"魁奇路"},
+                {"code":"GF_06","name":"季华园"},
+                {"code":"GF_07","name":"同济路"},
+                {"code":"GF_08","name":"祖庙"},
+                {"code":"GF_09","name":"普君北路"},
+                {"code":"GF_10","name":"朝安"},
+                {"code":"GF_11","name":"桂城"},
+                {"code":"GF_12","name":"南桂路"},
+                {"code":"GF_13","name":"虫雷 岗"},
+                {"code":"GF_14","name":"千灯湖"},
+                {"code":"GF_15","name":"金融高新区"},
+                {"code":"GF_16","name":"龙溪"},
+                {"code":"GF_17","name":"菊树"},
+                {"code":"GF_18","name":"西朗"},
+                {"code":"GF_19","name":"鹤洞"},
+                {"code":"GF_20","name":"沙涌"},
+                {"code":"GF_21","name":"沙园"},
+                {"code":"GF_22","name":"燕岗"}
+            ]
+        },
+        {
+            code:'APM',
+            name:"APM线",
+            childs:[
+                {"code":"APM_01","name":"广州塔"},
+                {"code":"APM_02","name":"海心沙"},
+                {"code":"APM_03","name":"大剧院"},
+                {"code":"APM_04","name":"花城大道"},
+                {"code":"APM_05","name":"妇儿中心"},
+                {"code":"APM_06","name":"黄埔大道"},
+                {"code":"APM_07","name":"天河南"},
+                {"code":"APM_08","name":"体育中心南"},
+                {"code":"APM_09","name":"林和西"}
+            ]
+        }
+    ]
+    for(var i = 0; i < subwayStations.length ; i++){
+        if(code == subwayStations[i].code){
+            return subwayStations[i].name;
+        }
+        else{
+            for(var j = 0;j< subwayStations[i].childs.length;j++){
+                if(subwayStations[i].childs[j].code == code){
+                    return subwayStations[i].childs[j].name;
+                }
+            }
+        }
+    }
+    return '无';
+}
+
+export function findSubwayCodeByName(name){
+    var subwayStations = [
+        {
+            code:'1',
+            name:"1号线",
+            childs:[
+                {"code":"1_01","name":"西朗"},
+                {"code":"1_02","name":"坑口"},
+                {"code":"1_03","name":"花地湾"},
+                {"code":"1_04","name":"芳村"},
+                {"code":"1_05","name":"黄沙"},
+                {"code":"1_06","name":"长寿路"},
+                {"code":"1_07","name":"陈家祠"},
+                {"code":"1_08","name":"西门口"},
+                {"code":"1_09","name":"公园前"},
+                {"code":"1_10","name":"农讲所"},
+                {"code":"1_11","name":"烈士陵园"},
+                {"code":"1_12","name":"东山口"},
+                {"code":"1_13","name":"杨箕"},
+                {"code":"1_14","name":"体育西路"},
+                {"code":"1_15","name":"体育中心"},
+                {"code":"1_16","name":"广州东站"}
+            ]
+        },
+        {
+            code:'2',
+            name:"2号线",
+            childs:[
+                {"code":"2_01","name":"广州南站"},
+                {"code":"2_02","name":"石壁"},
+                {"code":"2_03","name":"会江"},
+                {"code":"2_04","name":"南浦"},
+                {"code":"2_05","name":"洛溪"},
+                {"code":"2_06","name":"南洲"},
+                {"code":"2_07","name":"东晓南"},
+                {"code":"2_08","name":"江泰路"},
+                {"code":"2_09","name":"昌岗"},
+                {"code":"2_10","name":"江南西"},
+                {"code":"2_11","name":"市二宫"},
+                {"code":"2_12","name":"海珠广场"},
+                {"code":"2_13","name":"公园前"},
+                {"code":"2_14","name":"纪念堂"},
+                {"code":"2_15","name":"越秀公园"},
+                {"code":"2_16","name":"广州火车站"},
+                {"code":"2_17","name":"三元里"},
+                {"code":"2_18","name":"飞翔公园"},
+                {"code":"2_19","name":"白云公园"},
+                {"code":"2_20","name":"白云文化广场"},
+                {"code":"2_21","name":"萧岗"},
+                {"code":"2_22","name":"江夏"},
+                {"code":"2_23","name":"黄边"},
+                {"code":"2_24","name":"嘉禾望岗"}
+            ]
+        },
+        {
+            code:'3',
+            name:"3号线",
+            childs:[
+                {"code":"3_01","name":"番禺广场"},
+                {"code":"3_02","name":"市桥"},
+                {"code":"3_03","name":"汉溪长隆"},
+                {"code":"3_04","name":"大石"},
+                {"code":"3_05","name":"厦滘"},
+                {"code":"3_06","name":"沥滘"},
+                {"code":"3_07","name":"大塘"},
+                {"code":"3_08","name":"客村"},
+                {"code":"3_09","name":"广州塔"},
+                {"code":"3_10","name":"珠江新城"},
+                {"code":"3_11","name":"体育西路"},
+                {"code":"3_12","name":"石牌桥"},
+                {"code":"3_13","name":"岗顶"},
+                {"code":"3_14","name":"华师"},
+                {"code":"3_15","name":"五山"},
+                {"code":"3_16","name":"天河客运站"}
+            ]
+        },
+        {
+            code:'3N',
+            name:"3号线(北延段)",
+            childs:[
+                {"code":"3N_11","name":"体育西路"},
+                {"code":"3N_12","name":"林和西"},
+                {"code":"3N_13","name":"广州东站"},
+                {"code":"3N_14","name":"燕塘"},
+                {"code":"3N_15","name":"梅花园"},
+                {"code":"3N_16","name":"京溪南方医院"},
+                {"code":"3N_17","name":"同和"},
+                {"code":"3N_18","name":"永泰"},
+                {"code":"3N_19","name":"白云大道北"},
+                {"code":"3N_20","name":"嘉禾望岗"},
+                {"code":"3N_21","name":"龙归"},
+                {"code":"3N_22","name":"人和"},
+                {"code":"3N_23","name":"高增"},
+                {"code":"3N_24","name":"机场南（1号航站楼）"},
+                {"code":"3N_25","name":"机场北（2号航站楼）"}
+            ]
+        },
+        {
+            code:'4',
+            name:"4号线",
+            childs:[
+                {"code":"4_01","name":"南沙客运港"},
+                {"code":"4_02","name":"南横"},
+                {"code":"4_03","name":"塘坑"},
+                {"code":"4_04","name":"大涌"},
+                {"code":"4_05","name":"广隆"},
+                {"code":"4_06","name":"飞沙角"},
+                {"code":"4_07","name":"金洲"},
+                {"code":"4_08","name":"蕉门"},
+                {"code":"4_09","name":"黄阁"},
+                {"code":"4_10","name":"黄阁汽车城"},
+                {"code":"4_11","name":"庆盛"},
+                {"code":"4_12","name":"东涌"},
+                {"code":"4_13","name":"低涌"},
+                {"code":"4_14","name":"海傍"},
+                {"code":"4_15","name":"石碁"},
+                {"code":"4_16","name":"暂无"},
+                {"code":"4_17","name":"新造"},
+                {"code":"4_18","name":"大学城南"},
+                {"code":"4_19","name":"大学城北"},
+                {"code":"4_20","name":"官洲"},
+                {"code":"4_21","name":"万胜围"},
+                {"code":"4_22","name":"车陂南"},
+                {"code":"4_23","name":"车陂"},
+                {"code":"4_24","name":"黄村"}
+            ]
+        },
+        {
+            code:'5',
+            name:"5号线",
+            childs:[
+                {"code":"5_01","name":"滘口"},
+                {"code":"5_02","name":"坦尾"},
+                {"code":"5_03","name":"中山八"},
+                {"code":"5_04","name":"西场"},
+                {"code":"5_05","name":"西村"},
+                {"code":"5_06","name":"广州火车站"},
+                {"code":"5_07","name":"小北"},
+                {"code":"5_08","name":"淘金"},
+                {"code":"5_09","name":"区庄"},
+                {"code":"5_10","name":"动物园"},
+                {"code":"5_11","name":"杨箕"},
+                {"code":"5_12","name":"五羊邨"},
+                {"code":"5_13","name":"珠江新城"},
+                {"code":"5_14","name":"猎德"},
+                {"code":"5_15","name":"潭村"},
+                {"code":"5_16","name":"员村"},
+                {"code":"5_17","name":"科韵路"},
+                {"code":"5_18","name":"车陂南"},
+                {"code":"5_19","name":"东圃"},
+                {"code":"5_20","name":"三溪"},
+                {"code":"5_21","name":"鱼珠"},
+                {"code":"5_22","name":"大沙地"},
+                {"code":"5_23","name":"大沙东"},
+                {"code":"5_24","name":"文冲"}
+            ]
+        },
+        {
+            code:'6',
+            name:"6号线",
+            childs:[
+                {"code":"6_01","name":"浔峰岗"},
+                {"code":"6_02","name":"横沙"},
+                {"code":"6_03","name":"沙贝"},
+                {"code":"6_04","name":"河沙"},
+                {"code":"6_05","name":"坦尾"},
+                {"code":"6_06","name":"如意坊"},
+                {"code":"6_07","name":"黄沙"},
+                {"code":"6_08","name":"文化公园"},
+                {"code":"6_09","name":"一德路"},
+                {"code":"6_10","name":"海珠广场"},
+                {"code":"6_11","name":"北京路"},
+                {"code":"6_12","name":"团一大广场"},
+                {"code":"6_13","name":"东湖"},
+                {"code":"6_14","name":"东山口"},
+                {"code":"6_15","name":"区庄"},
+                {"code":"6_16","name":"黄花岗"},
+                {"code":"6_17","name":"沙河顶"},
+                {"code":"6_18","name":"暂无"},
+                {"code":"6_19","name":"天平架"},
+                {"code":"6_20","name":"燕塘"},
+                {"code":"6_21","name":"天河客运站"},
+                {"code":"6_22","name":"长湴"},
+                {"code":"6_23","name":"植物园"},
+                {"code":"6_24","name":"龙洞"},
+                {"code":"6_25","name":"柯木塱"},
+                {"code":"6_26","name":"高塘石"},
+                {"code":"6_27","name":"黄陂"},
+                {"code":"6_28","name":"金峰"},
+                {"code":"6_29","name":"暹岗"},
+                {"code":"6_30","name":"苏元"},
+                {"code":"6_31","name":"萝岗"},
+                {"code":"6_32","name":"香雪"}
+            ]
+        },
+        {
+            code:'7',
+            name:"7号线",
+            childs:[
+                {"code":"7_01","name":"广州南站"},
+                {"code":"7_02","name":"石壁"},
+                {"code":"7_03","name":"谢村"},
+                {"code":"7_04","name":"钟村"},
+                {"code":"7_05","name":"汉溪长隆"},
+                {"code":"7_06","name":"南村万博"},
+                {"code":"7_07","name":"员岗"},
+                {"code":"7_08","name":"板桥"},
+                {"code":"7_09","name":"大学城南"}
+            ]
+        },
+        {
+            code:'8',
+            name:"8号线",
+            childs:[
+                {"code":"8_16","name":"凤凰新村"},
+                {"code":"8_17","name":"沙园"},
+                {"code":"8_18","name":"宝岗大道"},
+                {"code":"8_19","name":"昌岗"},
+                {"code":"8_20","name":"晓港"},
+                {"code":"8_21","name":"中大"},
+                {"code":"8_22","name":"鹭江"},
+                {"code":"8_23","name":"客村"},
+                {"code":"8_24","name":"赤岗"},
+                {"code":"8_25","name":"磨碟沙"},
+                {"code":"8_26","name":"新港东"},
+                {"code":"8_27","name":"琶洲"},
+                {"code":"8_28","name":"万胜围"}
+            ]
+        },
+        {
+            code:'9',
+            name:"9号线",
+            childs:[
+                {"code":"9_01","name":"飞鹅岭"},
+                {"code":"9_02","name":"花都汽车城"},
+                {"code":"9_03","name":"广州北站"},
+                {"code":"9_04","name":"花城路"},
+                {"code":"9_05","name":"花果山公园"},
+                {"code":"9_06","name":"花都广场"},
+                {"code":"9_07","name":"马鞍山公园"},
+                {"code":"9_08","name":"莲塘"},
+                {"code":"9_09","name":"清㘵"},
+                {"code":"9_10","name":"暂无"},
+                {"code":"9_11","name":"高增"}
+            ]
+        },
+        {
+            code:'13',
+            name:"13号线",
+            childs:[
+                {"code":"13_01","name":"鱼珠"},
+                {"code":"13_02","name":"裕丰围"},
+                {"code":"13_03","name":"双岗"},
+                {"code":"13_04","name":"南海神庙"},
+                {"code":"13_05","name":"夏园"},
+                {"code":"13_06","name":"南岗"},
+                {"code":"13_07","name":"沙村"},
+                {"code":"13_08","name":"白江"},
+                {"code":"13_09","name":"新塘"},
+                {"code":"13_10","name":"官湖"},
+                {"code":"13_11","name":"新沙"}
+            ]
+        },
+        {
+            code:'14',
+            name:"14号线",
+            childs:[
+                {"code":"14_01","name":"新和"},
+                {"code":"14_02","name":"红卫"},
+                {"code":"14_03","name":"新南"},
+                {"code":"14_04","name":"枫下"},
+                {"code":"14_05","name":"知识城"},
+                {"code":"14_06","name":"何棠下"},
+                {"code":"14_07","name":"旺村"},
+                {"code":"14_08","name":"汤村"},
+                {"code":"14_09","name":"镇龙北"},
+                {"code":"14_10","name":"镇龙"}
+            ]
+        },
+        {
+            code:'GF',
+            name:"广佛线",
+            childs:[
+                {"code":"GF_01","name":"新城东"},
+                {"code":"GF_02","name":"东平"},
+                {"code":"GF_03","name":"世纪莲"},
+                {"code":"GF_04","name":"澜石"},
+                {"code":"GF_05","name":"魁奇路"},
+                {"code":"GF_06","name":"季华园"},
+                {"code":"GF_07","name":"同济路"},
+                {"code":"GF_08","name":"祖庙"},
+                {"code":"GF_09","name":"普君北路"},
+                {"code":"GF_10","name":"朝安"},
+                {"code":"GF_11","name":"桂城"},
+                {"code":"GF_12","name":"南桂路"},
+                {"code":"GF_13","name":"虫雷 岗"},
+                {"code":"GF_14","name":"千灯湖"},
+                {"code":"GF_15","name":"金融高新区"},
+                {"code":"GF_16","name":"龙溪"},
+                {"code":"GF_17","name":"菊树"},
+                {"code":"GF_18","name":"西朗"},
+                {"code":"GF_19","name":"鹤洞"},
+                {"code":"GF_20","name":"沙涌"},
+                {"code":"GF_21","name":"沙园"},
+                {"code":"GF_22","name":"燕岗"}
+            ]
+        },
+        {
+            code:'APM',
+            name:"APM线",
+            childs:[
+                {"code":"APM_01","name":"广州塔"},
+                {"code":"APM_02","name":"海心沙"},
+                {"code":"APM_03","name":"大剧院"},
+                {"code":"APM_04","name":"花城大道"},
+                {"code":"APM_05","name":"妇儿中心"},
+                {"code":"APM_06","name":"黄埔大道"},
+                {"code":"APM_07","name":"天河南"},
+                {"code":"APM_08","name":"体育中心南"},
+                {"code":"APM_09","name":"林和西"}
+            ]
+        }
+    ]
+    for(var i = 0; i < subwayStations.length ; i++){
+        if(name == subwayStations[i].name){
+            return subwayStations[i].code;
+        }
+        else{
+            for(var j = 0;j< subwayStations[i].childs.length;j++){
+                if(subwayStations[i].childs[j].name == name){
+                    return subwayStations[i].childs[j].code;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+//地区字典
+export function findaddareaCodeByName(name){
+   var addareaInfos=[
+        {"code":"0","name":"未知"},
+        {"code":"1","name":"广州市天河区"},
+        {"code":"2","name":"广州市白云区"},
+        {"code":"3","name":"广州市海珠区"},
+        {"code":"4","name":"广州市番禺区"},
+        {"code":"5","name":"广州市越秀区"},
+        {"code":"6","name":"广州市荔湾区"},
+        {"code":"7","name":"广州市黄埔区"},
+        {"code":"8","name":"广州市花都区"},
+        {"code":"9","name":"广州市增城区"},
+        {"code":"10","name":"广州市南沙区"},
+        {"code":"11","name":"广州市从化区"}
+        ]
+    for(var i = 0; i < addareaInfos.length; i++){
+        if(addareaInfos[i].name == name){
+            return addareaInfos[i].code;
+        }
+    }
+    return 0;
+}
+
+export function findaddareaNameByCode(code){
+    var addareaInfos=[
+        {"code":"0","name":"未知"},
+        {"code":"1","name":"天河区"},
+        {"code":"2","name":"白云区"},
+        {"code":"3","name":"海珠区"},
+        {"code":"4","name":"番禺区"},
+        {"code":"5","name":"越秀区"},
+        {"code":"6","name":"荔湾区"},
+        {"code":"7","name":"黄埔区"},
+        {"code":"8","name":"花都区"},
+        {"code":"9","name":"增城区"},
+        {"code":"10","name":"南沙区"},
+        {"code":"11","name":"从化区"}
+         ]
+     for(var i = 0; i < addareaInfos.length; i++){
+         if(addareaInfos[i].code == code){
+             return addareaInfos[i].name;
+         }
+     }
+     return '未知'
+}
+
+
+ //房屋配置
+export function finddDkConfigureNameByCode(code){
+    var list=[
+        {"code":"0","name":"无"},
+        {"code":"1","name":"床"},
+        {"code":"2","name":"宽带"},
+        {"code":"3","name":"电视"},
+        {"code":"4","name":"冰箱"},
+        {"code":"5","name":"洗衣机"},
+        {"code":"6","name":"空调"},
+        {"code":"7","name":"热水器"},
+        {"code":"8","name":"沙发"},
+        {"code":"9","name":"衣柜"},
+        {"code":"10","name":"桌椅"},
+        {"code":"11","name":"油烟机"},
+        {"code":"12","name":"微波炉"}
+    ]
+    for(var i = 0; i < list.length; i++){
+        if(list[i].code == code){
+            return list[i].name;
+        }
+    }
+    return '未知'
+}
+
+export function finddDkConfigureCodeByName(name){
+    var list=[
+        {"code":"0","name":"无"},
+        {"code":"1","name":"床"},
+        {"code":"2","name":"宽带"},
+        {"code":"3","name":"电视"},
+        {"code":"4","name":"冰箱"},
+        {"code":"5","name":"洗衣机"},
+        {"code":"6","name":"空调"},
+        {"code":"7","name":"热水器"},
+        {"code":"8","name":"沙发"},
+        {"code":"9","name":"衣柜"},
+        {"code":"10","name":"桌椅"},
+        {"code":"11","name":"油烟机"},
+        {"code":"12","name":"微波炉"}
+    ]
+    for(var i = 0; i < list.length; i++){
+        if(list[i].name == name){
+            return list[i].code;
+        }
+    }
+    return '无'
+}
+
+//租金包含费用
+export function findCostNameByCode(code){
+    var list=[
+            {"code":"0","name":"无"},
+            {"code":"1","name":"水费"},
+            {"code":"2","name":"电费"},
+            {"code":"3","name":"燃气费"},
+            {"code":"4","name":"宽带费"},
+            {"code":"5","name":"物业费"},
+            {"code":"6","name":"取暖费"},
+            {"code":"7","name":"有线电视费"},
+            {"code":"8","name":"停车费"},
+            {"code":"9","name":"卫生费"},
+            {"code":"10","name":"管理费"}
+        ];
+    for(var i = 0; i < list.length; i++){
+        if(list[i].code == code){
+            return list[i].name;
+        }
+    }
+    return '未知'
+}
+
+export function findCostCodeByName(name){
+    var list=[
+            {"code":"0","name":"无"},
+            {"code":"1","name":"水费"},
+            {"code":"2","name":"电费"},
+            {"code":"3","name":"燃气费"},
+            {"code":"4","name":"宽带费"},
+            {"code":"5","name":"物业费"},
+            {"code":"6","name":"取暖费"},
+            {"code":"7","name":"有线电视费"},
+            {"code":"8","name":"停车费"},
+            {"code":"9","name":"卫生费"},
+            {"code":"10","name":"管理费"}
+        ];
+    for(var i = 0; i < list.length; i++){
+        if(list[i].name == name){
+            return list[i].code;
+        }
+    }
+    return '0'
+}
+
+//租赁要求
+export function findDkRentalDemandCodeByName(name){
+    var list = [
+        {"code":"0","name":"无"},
+        {"code":"1","name":"只限女生"},
+        {"code":"2","name":"只限男生"},
+        {"code":"3","name":"禁止养宠物"},
+        {"code":"4","name":"半年起租"},
+        {"code":"5","name":"可短租"},
+        {"code":"6","name":"租户稳定"},
+        {"code":"7","name":"作息正常"},
+        {"code":"8","name":"禁烟"},
+        {"code":"9","name":"禁止情侣"}
+    ]
+    for(var i = 0; i < list.length; i++){
+        if(list[i].name == name){
+            return list[i].code;
+        }
+    }
+    return '0'
+}
+
+export function findDkRentalDemandNameByCode(code){
+    var list = [
+        {"code":"0","name":"无"},
+        {"code":"1","name":"只限女生"},
+        {"code":"2","name":"只限男生"},
+        {"code":"3","name":"禁止养宠物"},
+        {"code":"4","name":"半年起租"},
+        {"code":"5","name":"可短租"},
+        {"code":"6","name":"租户稳定"},
+        {"code":"7","name":"作息正常"},
+        {"code":"8","name":"禁烟"},
+        {"code":"9","name":"禁止情侣"}
+    ]
+    for(var i = 0; i < list.length; i++){
+        if(list[i].code == code){
+            return list[i].name;
+        }
+    }
+    return '无'
+}

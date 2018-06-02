@@ -59,7 +59,8 @@ export default {
         },
         toLoginOut(){
             delete sessionStorage.user;
-            window.location.reload();
+            this.user = null;
+            // window.location.reload();
         },
         toRegister(){
             this.$router.push('/register');

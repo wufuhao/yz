@@ -168,6 +168,7 @@
 </template>
 
 <script>
+import {findSubwayCodeByName,findaddareaCodeByName} from '@/utils/yz.js'
 export default {
     data(){
         return{
@@ -271,6 +272,8 @@ export default {
             })
         },
         publish(){
+            this.houseInfo.dk_add_area = findaddareaCodeByName(this.houseInfo.dk_add_area);
+            this.houseInfo.dk_sub_statiom = findSubwayCodeByName(this.houseInfo.dk_sub_statiom);
             console.log(this.houseInfo);
         },
         successUploadPicutre(response, file, fileList){

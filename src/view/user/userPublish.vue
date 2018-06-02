@@ -4,16 +4,27 @@
             <span>我的发布</span>
         </div>
         <div id="userPublish">
+            <el-button type="primary" class="publishNewRoom"  @click="toPublishNewRoom">发布房源</el-button>
             <el-table :data="houseList"  @selection-change="handleSelectionChange">
                 <el-table-column type="selection"></el-table-column>
                 <el-table-column prop="title" label="房源标题"></el-table-column>
-                <el-table-column prop="status" label="状态"></el-table-column>
-                <el-table-column prop="createTime" label="发布时间"></el-table-column>
+                <el-table-column prop="status" label="状态" width="100">
+                    <template scope="scope">
+                        <span v-if="scope.row.dk_pub_status == '0'">未审核</span>
+                        <span v-if="scope.row.dk_pub_status == '1'">发布失败</span>
+                        <span v-if="scope.row.dk_pub_status == '2'">发布成功</span>
+                        <span v-if="scope.row.dk_pub_status == '3'">取消发布</span>
+                        <span v-if="scope.row.dk_pub_status == '5'">已过期</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="createTime" label="发布时间" width="150"></el-table-column>
                 <el-table-column label="操作">
                     <template scope="scope">
-                        <el-button type="text" v-if="scope.row.status == '已发布'">取消发布</el-button>
-                        <el-button type="text" v-if="scope.row.status == '已取消'">重新发布</el-button>
-                        <el-button type="text" >查看</el-button>
+                        <el-button type="text">查看</el-button>
+                        <el-button type="text" v-if="scope.row.dk_pub_status == '1' || scope.row.dk_pub_status == '3' ||scope.row.dk_pub_status == '5'">编辑</el-button>
+                        <el-button type="text" v-if="scope.row.dk_pub_status == '1' || scope.row.dk_pub_status == '3' ||scope.row.dk_pub_status == '5'">删除</el-button>
+                        <el-button type="text" v-if="scope.row.dk_pub_status == '3' || scope.row.dk_pub_status == '5'">重新发布</el-button>
+                        <el-button type="text" v-if="scope.row.dk_pub_status == '0' || scope.row.dk_pub_status == '2'" >取消发布</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -21,8 +32,8 @@
                 class="pagination-middle"
                 background
                 layout="prev, pager, next"
-                :total="1000"
-                :page-size="10"
+                :total="rowsCount"
+                :page-size="queryParam.size"
                 @current-change="currentChange">
             </el-pagination>
         </div>
@@ -30,41 +41,41 @@
 </template>
 
 <script>
+import {getMyPublish} from '@/api/user.js'
 export default {
     data(){
         return{
-            houseList:[
-                {
-                    title:'我发布的房源标题1',
-                    status:'审核中',
-                    id:1,
-                    createTime:'2017-05-01'
-                },
-                {
-                    title:'我发布的房源标题2',
-                    status:'已取消',
-                    id:2,
-                    createTime:'2018-06-01'
-                },
-                {
-                    title:'20字的房源标题啊啊啊啊啊啊啊啊啊啊啊啊啊',
-                    status:'已发布',
-                    id:3,
-                    createTime:'2018-06-02'
-                },
-            ],
-            selectionHouses:[]
+            houseList:[],
+            selectionHouses:[],
+            queryParam:{
+                current: 1,
+                size: 10
+            },
+            rowsCount:1,
         }
     },
     mounted(){
-
+        this.search();
     },
     methods:{
+        search(){
+            getMyPublish(this.queryParam)
+                .then(res =>{
+                    if(res.resultCode == "200"){
+                        this.houseList = res.busObj.records;
+                    }
+                })
+        },
         handleSelectionChange(val){
             this.selectionHouses = val;
         },
         currentChange(val){
             console.log(val);
+            this.queryParam.current = val;
+            this.search();
+        },
+        toPublishNewRoom(){
+            this.$router.push('/user/publishNewRoom')
         },
     }
 }
@@ -85,6 +96,13 @@ export default {
         
     }
     #userPublish .pagination-middle{
-        margin-left: 20%
+        margin-left: 30%
+    }
+    #userPublish .publishNewRoom{
+            position: absolute;
+            z-index: 2;
+            /* float: right; */
+            margin-left: 50%;
+            margin-top: 3px;
     }
 </style>

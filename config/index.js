@@ -12,7 +12,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/yz': {
-        target: 'http://192.168.253.5:8085',
+        // target: 'http://192.168.253.5:8085',
+        target: 'http://47.106.115.158:8085',
         pathRewrite: {'^/yz' : '/'}, // 重写路径
         changeOrigin: true
       },

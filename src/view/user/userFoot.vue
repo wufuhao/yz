@@ -9,8 +9,8 @@
                 <el-table-column prop="title" label="房源标题"></el-table-column>
                 <el-table-column prop="createTime" label="访问时间"></el-table-column>
                 <el-table-column label="操作">
-                    <template scope="scope">
-                        <el-button type="text" >查看</el-button>
+                    <template scope="table">
+                        <el-button type="text" @click="toDetail(table.row)" >查看</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -37,6 +37,9 @@ export default {
         },
         currentChange(val){
             console.log(val);
+        },
+        toDetail(row){
+
         },
     }
 }
