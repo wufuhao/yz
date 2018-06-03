@@ -3,13 +3,13 @@
         <div class="block">
             <el-carousel height="550px">
                 <el-carousel-item>
-                    <img src="../picture/1.jpg" />
+                    <img src="../picture/index1.png" style="height:100%;width:100%" />
                 </el-carousel-item>
                 <el-carousel-item>
-                    <img src="../picture/2.jpg" />
+                    <img src="../picture/index2.jpg" style="height:100%;width:100%" />
                 </el-carousel-item>
                 <el-carousel-item>
-                    <img src="../picture/3.jpg" />
+                    <img src="../picture/index3.jpg" style="height:100%;width:100%" />
                 </el-carousel-item>
             </el-carousel>
         </div>
@@ -39,15 +39,15 @@
             </div>
             <div style="margin-top:20px">
                 <el-row >
-                    <el-col :span="8">
-                        <div class="grid-content bg-purplegrid-content bg-purple indexRoomPic" @click="toDetails" >
-                            <img  src="../picture/hot1.jpg" style="height:290px;width:390px" /><br/>
-                            <span >金碧花园第二金碧4居室</span><br/>
+                    <el-col :span="8" v-for="item in popularHouseList" :key="item.hId">
+                        <div class="grid-content bg-purplegrid-content bg-purple indexRoomPic" @click="toDetails(item.hId)" >
+                            <img  :src="item.hImgPath.split(',')[0]" style="height:290px;width:390px" /><br/>
+                            <span >{{item.title}}</span><br/>
                             <span>海珠金碧2号东晓南</span>
-                            <span>￥1700/月</span>
+                            <span>￥{{item.rental}}/月</span>
                         </div>
                     </el-col>
-                    <el-col :span="8">
+                    <!-- <el-col :span="8">
                         <div class="grid-content bg-purple indexRoomPic">
                             <img  src="../picture/hot2.jpg" style="height:290px;width:390px" /><br/>
                             <span >金碧花园第二金碧4居室</span><br/>
@@ -62,7 +62,7 @@
                             <span>海珠金碧2号东晓南</span>
                             <span>￥1700/月</span>
                         </div>
-                    </el-col>
+                    </el-col> -->
                 </el-row>
             </div>
         </div>
@@ -73,15 +73,15 @@
             </div>
             <div style="margin-top:20px">
                 <el-row >
-                    <el-col :span="8">
-                        <div class="grid-content bg-purple indexRoomPic">
-                            <img  src="../picture/hot1.jpg" style="height:290px;width:390px" /><br/>
-                            <span >金碧花园第二金碧4居室</span><br/>
+                    <el-col :span="8" v-for="item in newHouseList" :key="item.hId">
+                        <div class="grid-content bg-purple indexRoomPic" @click="toDetails(item.hId)">
+                            <img  :src="item.hImgPath.split(',')[0]" style="height:290px;width:390px" /><br/>
+                            <span >{{item.title}}</span><br/>
                             <span>海珠金碧2号东晓南</span>
-                            <span>￥1700/月</span>
+                            <span>￥{{item.rental}}/月</span>
                         </div>
                     </el-col>
-                    <el-col :span="8">
+                    <!-- <el-col :span="8">
                         <div class="grid-content bg-purple indexRoomPic">
                             <img  src="../picture/hot2.jpg" style="height:290px;width:390px" /><br/>
                             <span >金碧花园第二金碧4居室</span><br/>
@@ -96,7 +96,7 @@
                             <span>海珠金碧2号东晓南</span>
                             <span>￥1700/月</span>
                         </div>
-                    </el-col>
+                    </el-col> -->
                 </el-row>
             </div>
         </div>
@@ -114,28 +114,45 @@
 </template>
 
 <script>
+import {getPage} from '@/api/room'
 export default {
     data(){
         return{
             queryParam:{
                 district:'',
                 queryName:'',
-            }
+            },
+            popularHouseQueryParam:{
+                "current": 1,
+                "orderBy": "publish_time",
+                "asc":false,
+                "size": 3
+            },
+            newHouseQueryParam:{
+                "current": 1,
+                "orderBy": "favorite",
+                "asc":false,
+                "size": 3
+            },
+            popularHouseList:[],
+            newHouseList:[]
         }
     },
     mounted(){
         this.createBaiduMap();
+        this.search();
     },
     methods:{
-       toDetails(){
-           console.log("点击跳到详细");
-       },
-       toSearch(){
+        toDetails(hId){
+            sessionStorage.hId = hId;
+            this.$router.push('/room/detail')
+        },
+        toSearch(){
            sessionStorage.district = this.queryParam.district;
            sessionStorage.queryName = this.queryParam.queryName;
            this.$router.push('/room/search')
-       },
-       createBaiduMap() {
+        },
+        createBaiduMap() {
             // 百度地图API功能
             // 在指定div位置创建Map实例
             var map = new BMap.Map("XSDFXPage",{enableMapClick:true});
@@ -153,7 +170,18 @@ export default {
                 _this.queryParam.queryName = myValue;
             });
         },
-       
+        search(){
+            getPage(this.newHouseQueryParam).then(res=>{
+                if(res.resultCode == '200'){
+                    this.newHouseList = res.busObj.records;
+                }
+            });
+            getPage(this.popularHouseQueryParam).then(res=>{
+                if(res.resultCode == '200'){
+                    this.popularHouseList = res.busObj.records;
+                }
+            });
+        }
        
     }
 }

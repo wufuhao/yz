@@ -11,7 +11,7 @@
             background-color="rgba(255,255,255,0)"
             >
                 <el-menu-item index="1" style="padding:0px;margin:0px"> 
-                    <img class="logoHomeImg" src="../../picture/易租logo1.png"/>
+                    <img class="logoHomeImg" src="../../picture/yizuLogo1.png"/>
                 </el-menu-item>
                 <el-menu-item index="2">
                     <el-select v-model="selectedCity" style="width:100px">
@@ -22,8 +22,6 @@
                     </el-select>
                 </el-menu-item>
                 <el-menu-item index="3" ><el-button type="text" @click="toHome" class="topBtn">首页</el-button></el-menu-item>
-                <el-menu-item index="4">短租</el-menu-item>
-                <el-menu-item index="5">长租</el-menu-item>
             </el-menu>
             <div  style="position:absolute;z-index:2; margin-left:90%;height:60px">
                 <div v-if="user == null">
@@ -60,6 +58,7 @@ export default {
         toLoginOut(){
             delete sessionStorage.user;
             this.user = null;
+            this.$router.push('/index');
             // window.location.reload();
         },
         toRegister(){

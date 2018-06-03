@@ -9,27 +9,36 @@
             </div> -->
             <el-form class="userForm">
                 <el-form-item class="picForm">
-                    <img src="https://wx.qlogo.cn/mmopen/vi_32/GwPIHmRJmaOyS0oWWElbCXERvH4Xgk1SX3nR4trmSR07QiccicmibcepvsCnWpO1gIERlaQH0LyXeEd3W7XYUT3Zw/0" style="width:100%;height:100%;border-radius: 50%;">
+                    <el-upload
+                    action="/yz/usr/uploadUserIcon"
+                    :on-success="successUploadPicutre"
+                    :on-error="uploadPictureErr"
+                    name="upload_file"
+                    list-type="picture">
+                        <img :src="queryParam.uImgPath" style="width:120px;height:120px;border-radius: 50%;">
+                    </el-upload>
                 </el-form-item>
-                <el-form-item class="userInfo-leve1" label="用户名：">
-                    <span v-if="userInfo.userName == null">未填</span>
-                    <span v-else>{{userInfo.userName}}</span>
-                </el-form-item>
-                <el-form-item class="userInfo-leve1" label="真实姓名：">
-                    <span v-if="userInfo.realName == null">未填</span>
-                    <span v-else>{{userInfo.realName}}</span>
+                <!-- <el-form-item class="userInfo-leve1" label="用户名：">
+                    <el-input v-model="userInfo.loginId" placeholder="未填"></el-input>
+                </el-form-item> -->
+                <!-- <el-form-item class="userInfo-leve1" label="密码：">
+                    <el-input type="password" v-model="userInfo.pwd" placeholder="未填"></el-input>
+                </el-form-item> -->
+                <el-form-item class="userInfo-leve1" label="昵称：">
+                    <el-input v-model="queryParam.name" placeholder="未填"></el-input>
                 </el-form-item>
                 <el-form-item class="userInfo-leve1" label="邮箱：">
-                    <span v-if="userInfo.email == null">未填</span>
-                    <span v-else>{{userInfo.email}}</span>
+                    <el-input v-model="queryParam.email" placeholder="未填"></el-input>
                 </el-form-item>
                 <el-form-item class="userInfo-leve1" label="绑定手机：">
-                    <span v-if="userInfo.phone == null">未填</span>
-                    <span v-else>{{userInfo.phone}}</span>
+                    <span>{{userInfo.phoneNo}}</span>
+                    <!-- <el-input v-model="userInfo.phoneNo" placeholder="未填"></el-input> -->
                 </el-form-item>
                 <el-form-item class="userInfo-leve1" label="注册时间：">
-                    <span v-if="userInfo.createTime == null">未填</span>
-                    <span v-else>{{userInfo.createTime}}</span>
+                    <span>{{userInfo.createTime}}</span>
+                </el-form-item>
+                <el-form-item class="userInfo-leve1">
+                    <el-button type="primary" @click="saveUserInfo">保存</el-button>
                 </el-form-item>
             </el-form>
             <!-- <hr style="width:90%" /> -->
@@ -38,22 +47,49 @@
 </template>
 
 <script>
-
+import {updateUserInfo,getUserInfo} from '@/api/user'
 export default {
     data(){
         return{
-           userInfo:{
-                userName:null,
-                realName:null,
+           queryParam:{
+                uImgPath:'/static/img/user-default.6aa5c4f.png',
+                // phoneNo:'13246307464',
                 email:null,
-                phone:'13246307464',
-                createTime:'2017年04月11日'
-           } 
+                createTime:'2018-05-01 15:30:31',
+                name:'',
+                pwd:null    
+           },
+           userInfo:{}
         }
     },
-    mounted(){},
+    mounted(){
+        this.search();
+    },
     methods:{
-        
+        successUploadPicutre(response, file, fileList){  
+            console.log(fileList);
+            if(fileList.length > 1 ){
+                delete fileList[0];
+            }
+            this.queryParam.uImgPath = fileList[0].response.resultMessage;
+        },
+        uploadPictureErr(file, fileList){
+            console.log(fileList);
+        },
+        saveUserInfo(){
+            updateUserInfo(this.queryParam).then(res =>{
+                if(res.resultCode == '200'){
+                    this.$message('更新成功')
+                }
+            })
+        },
+        search(){
+            getUserInfo().then(res=>{
+                if(res.resultCode == '200'){
+                    this.userInfo = res.busObj;
+                }
+            })
+        }
     }
 }
 </script>
@@ -101,5 +137,14 @@ export default {
     }
     .userForm{
         margin-left: 30% !important;
+    }
+    .userForm .el-input{
+        width: 40%;
+    }
+    .userForm .el-form-item__label{
+        width: 90px;
+    }
+    .picForm .el-upload-list{
+        display:none;
     }
 </style>

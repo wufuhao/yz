@@ -1,36 +1,49 @@
 <template>
     <div>
-        <el-menu :router="true" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-            <el-menu-item index="/index">
+        <el-menu :router="true" 
+        class="el-menu-vertical-demo" 
+        @open="handleOpen" 
+        @close="handleClose"
+        background-color="#545c64"
+        text-color="#fff"
+        mode="horizontal">
+            <el-menu-item index="/background/userManager">
                 <i class="el-icon-location"></i>
-                <span slot="title">导航一</span>
+                <span slot="title">账号管理</span>
             </el-menu-item>
-            <el-menu-item index="2">
+            <el-menu-item index="/background/houseManager">
                 <i class="el-icon-menu"></i>
-                <span slot="title">导航二</span>
+                <span slot="title">房源管理</span>
             </el-menu-item>
-            <el-menu-item index="3">
+            <el-menu-item index="/background/houseAdmit">
                 <i class="el-icon-document"></i>
-                <span slot="title">导航三</span>
+                <span slot="title">房源审核</span>
+            </el-menu-item>
+            <el-menu-item index="/background/tipOffManager">
+                <i class="el-icon-setting"></i>
+                <span slot="title">举报审核</span>
             </el-menu-item>
             <el-menu-item index="4">
                 <i class="el-icon-setting"></i>
-                <span slot="title">导航四</span>
+                <span slot="title">数据分析</span>
             </el-menu-item>
         </el-menu>
+        <!-- <levelbar class="top-breadcrumb"></levelbar> -->
         <router-view></router-view>
     </div>
 </template>
 
 <script>
+import levelbar from '@/view/layout/Levelbar'
 export default {
+    components:{levelbar},
     data(){
         return{
            
         }
     },
     mounted(){
-        window.open('#/index');
+        
     },
     methods:{
         handleOpen(key, keyPath) {
@@ -45,7 +58,9 @@ export default {
 
 <style>
     .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 200px;
-        min-height: 400px;
+        width: 100%;
+        float: left;
+        /* margin-right: 5%; */
+        height: 70px;
     }
 </style>

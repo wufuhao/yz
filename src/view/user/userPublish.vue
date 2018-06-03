@@ -10,21 +10,21 @@
                 <el-table-column prop="title" label="房源标题"></el-table-column>
                 <el-table-column prop="status" label="状态" width="100">
                     <template scope="scope">
-                        <span v-if="scope.row.dk_pub_status == '0'">未审核</span>
-                        <span v-if="scope.row.dk_pub_status == '1'">发布失败</span>
-                        <span v-if="scope.row.dk_pub_status == '2'">发布成功</span>
-                        <span v-if="scope.row.dk_pub_status == '3'">取消发布</span>
-                        <span v-if="scope.row.dk_pub_status == '5'">已过期</span>
+                        <span v-if="scope.row.dkPubStatus == 0">未审核</span>
+                        <span v-if="scope.row.dkPubStatus == 1">发布失败</span>
+                        <span v-if="scope.row.dkPubStatus == 2">发布成功</span>
+                        <span v-if="scope.row.dkPubStatus == 3">取消发布</span>
+                        <span v-if="scope.row.dkPubStatus == 5">已过期</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="createTime" label="发布时间" width="150"></el-table-column>
+                <el-table-column prop="createTime" label="创建时间" width="200"></el-table-column>
                 <el-table-column label="操作">
                     <template scope="scope">
-                        <el-button type="text">查看</el-button>
-                        <el-button type="text" v-if="scope.row.dk_pub_status == '1' || scope.row.dk_pub_status == '3' ||scope.row.dk_pub_status == '5'">编辑</el-button>
-                        <el-button type="text" v-if="scope.row.dk_pub_status == '1' || scope.row.dk_pub_status == '3' ||scope.row.dk_pub_status == '5'">删除</el-button>
-                        <el-button type="text" v-if="scope.row.dk_pub_status == '3' || scope.row.dk_pub_status == '5'">重新发布</el-button>
-                        <el-button type="text" v-if="scope.row.dk_pub_status == '0' || scope.row.dk_pub_status == '2'" >取消发布</el-button>
+                        <el-button type="text" @click="toHouseDetail(scope.row)">查看</el-button>
+                        <el-button type="text" v-if="scope.row.dkPubStatus == '1' || scope.row.dkPubStatus == '3' ||scope.row.dkPubStatus == '5'">编辑</el-button>
+                        <el-button type="text" v-if="scope.row.dkPubStatus == '1' || scope.row.dkPubStatus == '3' ||scope.row.dkPubStatus == '5'">删除</el-button>
+                        <el-button type="text" v-if="scope.row.dkPubStatus == '3' || scope.row.dkPubStatus == '5'">重新发布</el-button>
+                        <el-button type="text" v-if="scope.row.dkPubStatus == '0' || scope.row.dkPubStatus == '2'" >取消发布</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -63,6 +63,7 @@ export default {
                 .then(res =>{
                     if(res.resultCode == "200"){
                         this.houseList = res.busObj.records;
+                        this.rowsCount = res.busObj.total;
                     }
                 })
         },
@@ -77,6 +78,10 @@ export default {
         toPublishNewRoom(){
             this.$router.push('/user/publishNewRoom')
         },
+        toHouseDetail(row){
+            sessionStorage.hId = row.hId;
+            this.$router.push('/room/detail')
+        }
     }
 }
 </script>

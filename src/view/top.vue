@@ -23,8 +23,6 @@
                     </el-select>
                 </el-menu-item>
                 <el-menu-item index="3" >首页</el-menu-item>
-                <el-menu-item index="4">短租</el-menu-item>
-                <el-menu-item index="5">长租</el-menu-item>
             </el-menu>
             <div  style="position:absolute;z-index:2; margin-left:90%;height:60px">
                 <div v-if="user == null">

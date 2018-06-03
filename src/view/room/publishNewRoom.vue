@@ -3,12 +3,12 @@
         <el-form class="publishRoomForm" >
             <span class="publishRoomTitle">类别</span>
             <el-form-item label="出租方式">
-                <el-radio v-model="houseInfo.dk_rental_way" label="0">整租</el-radio>
-                <el-radio v-model="houseInfo.dk_rental_way" label="1">合租</el-radio>
+                <el-radio v-model="houseInfo.dkRentalWay" label="0">整租</el-radio>
+                <el-radio v-model="houseInfo.dkRentalWay" label="1">合租</el-radio>
             </el-form-item>
-            <el-form-item label="卧室类型" v-if="houseInfo.dk_rental_way == 1">
-                <el-radio v-model="houseInfo.dk_room_type" label="1">主卧</el-radio>
-                <el-radio v-model="houseInfo.dk_room_type" label="2">次卧</el-radio>
+            <el-form-item label="卧室类型" v-if="houseInfo.dkRentalWay == 1">
+                <el-radio v-model="houseInfo.dkRoomType" label="1">主卧</el-radio>
+                <el-radio v-model="houseInfo.dkRoomType" label="2">次卧</el-radio>
             </el-form-item>
             <span class="publishRoomTitle">基础信息</span>
             <el-form-item label="详细地址" id="searchResultPanel">
@@ -16,9 +16,9 @@
             </el-form-item>
             <el-form-item label="区域">
                 <!-- <span>区域</span> -->
-                <el-input  style="width:30%" v-model="houseInfo.dk_add_area" disabled></el-input>
+                <el-input  style="width:30%" v-model="houseInfo.dkAddArea" disabled></el-input>
                 <span>地铁站点</span>
-                <el-input style="width:30%" v-model="houseInfo.dk_sub_statiom" disabled></el-input>
+                <el-input style="width:30%" v-model="houseInfo.dkSubStation" disabled></el-input>
             </el-form-item>
             <el-form-item label="房屋类型">
                 <el-input-number :controls="false" style="width:20%;" v-model="houseInfo.room"></el-input-number>
@@ -30,7 +30,7 @@
                 <span style="position: absolute;z-index: 2;margin-left: 5px;">共</span>
                 <el-input-number :controls="false" style="width:20%" v-model="houseInfo.area"></el-input-number>
                 <span class="housetype">㎡</span>
-                <el-select style="margin-top:10px;width:300px;" placeholder="请选择朝向" v-model="houseInfo.dk_orient">
+                <el-select style="margin-top:10px;width:300px;" placeholder="请选择朝向" v-model="houseInfo.dkOrient">
                     <el-option value="1" label="东"></el-option>
                     <el-option value="2" label="南"></el-option>
                     <el-option value="3" label="西"></el-option>
@@ -42,7 +42,7 @@
                     <el-option value="9" label="东北" ></el-option>
                     <el-option value="10" label="西北" ></el-option>
                 </el-select>
-                <el-select v-model="houseInfo.dk_decoration" style="margin-top:10px;margin-left: -140px;width: 300px;" placeholder="请选择装修情况">
+                <el-select v-model="houseInfo.dkDecoration" style="margin-top:10px;margin-left: -140px;width: 300px;" placeholder="请选择装修情况">
                     <el-option value="0" label="毛坯" ></el-option>
                     <el-option value="1" label="简单装修" ></el-option>
                     <el-option value="2" label="中等装修" ></el-option>
@@ -54,14 +54,14 @@
                 <el-input-number :controls="false" style="width:20%" v-model="houseInfo.floor"></el-input-number>
                 <span style="position: absolute; margin-left: -120px;">第</span>
                 <span style="position: absolute;margin-left: -25px;">层</span>
-                <el-input-number :controls="false" style="width:20%" v-model="houseInfo.total_floor"></el-input-number>
+                <el-input-number :controls="false" style="width:20%" v-model="houseInfo.totalFloor"></el-input-number>
                 <span style="position: absolute;margin-left: -120px;">共</span>
                 <span style="position: absolute;margin-left: -25px;">层</span>
             </el-form-item>
             <el-form-item label="租金">
                 <el-input-number :controls="false" style="width:40%" v-model="houseInfo.rental"></el-input-number>
                 <span style="position: absolute;margin-left: -50px;">元/月</span>
-                <el-select v-model="houseInfo.dk_rental_type" placeholder="押付方式">
+                <el-select v-model="houseInfo.dkRentalType" placeholder="押付方式">
                     <el-option value="1" label="押一付一"></el-option>
                     <el-option value="2" label="押一付二"></el-option>
                     <el-option value="3" label="押一付三"></el-option>
@@ -74,14 +74,14 @@
             </el-form-item>
             <span class="publishRoomTitle">详细信息</span>
             <el-form-item label="水费" style="margin-top:20px">
-                <el-input-number :controls="false" style="width:20%" v-model="houseInfo.water_rate"></el-input-number>
+                <el-input-number :controls="false" style="width:20%" v-model="houseInfo.waterRate"></el-input-number>
                 <span>元/吨</span>
                 <span style="margin-left:50px">电费</span>
-                <el-input-number :controls="false" style="width:20%" v-model="houseInfo.power_rate"></el-input-number>
+                <el-input-number :controls="false" style="width:20%" v-model="houseInfo.powerRate"></el-input-number>
                 <span>元/度</span>
             </el-form-item>
             <el-form-item label="租金已包含费用" style="margin-top:-20px;">
-                <el-checkbox-group v-model="houseInfo.dk_rental_cost">
+                <el-checkbox-group v-model="houseInfo.dkRentalCosts">
                     <el-checkbox label="1">水费</el-checkbox>
                     <el-checkbox label="2">电费</el-checkbox>
                     <el-checkbox label="3">燃气费</el-checkbox>
@@ -95,7 +95,7 @@
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="房源配置" style="margin-top:50px">
-                <el-checkbox-group v-model="houseInfo.dk_configure">
+                <el-checkbox-group v-model="houseInfo.dkConfigures">
                     <el-checkbox label="1">床</el-checkbox>
                     <el-checkbox label="2">宽带</el-checkbox>
                     <el-checkbox label="3">电视</el-checkbox>
@@ -111,7 +111,7 @@
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="出租要求" style="margin-top:90px">
-                <el-checkbox-group v-model="houseInfo.dk_rental_demand">
+                <el-checkbox-group v-model="houseInfo.dkRentalDemands">
                     <el-checkbox label="1">只限女生</el-checkbox>
                     <el-checkbox label="2">只限男生</el-checkbox>
                     <el-checkbox label="3">禁止养宠物</el-checkbox>
@@ -124,9 +124,9 @@
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="看房时间" style="margin-top:50px;">
-                <el-radio v-model="houseInfo.dk_looktime" label="0">仅工作日</el-radio>
-                <el-radio v-model="houseInfo.dk_looktime" label="1">仅周末</el-radio>
-                <el-radio v-model="houseInfo.dk_looktime" label="2">随时看房</el-radio>
+                <el-radio v-model="houseInfo.dkLooktime" label="0">仅工作日</el-radio>
+                <el-radio v-model="houseInfo.dkLooktime" label="1">仅周末</el-radio>
+                <el-radio v-model="houseInfo.dkLooktime" label="2">随时看房</el-radio>
             </el-form-item>
             <el-form-item label="宜居人数">
                 <el-input-number :controls="false" style="width:30%" v-model="houseInfo.suitable"></el-input-number>
@@ -138,7 +138,7 @@
             <el-form-item label="房源描述">
                 <el-input type="textarea" autosize v-model="houseInfo.introduce" :minlength="10" :maxlength="300"></el-input>
             </el-form-item>
-            <el-form-item label="上传图片" class="uploadPicture">
+            <!-- <el-form-item label="上传图片" class="uploadPicture">
                 <el-upload
                     action="http://up.imgapi.com/"
                     list-type="picture-card"
@@ -149,15 +149,27 @@
                     :limit="6">
                 <i class="el-icon-plus"></i>
                 </el-upload>
+            </el-form-item> -->
+             <el-form-item label="上传图片" class="uploadPicture">
+                <el-upload
+                    action="/yz/house/houseInfo/uploadHouseImg"
+                    list-type="picture-card"
+                    :on-success="successUploadPicutre"
+                    :on-remove="removePicture"
+                    :on-error="uploadPictureErr"
+                    name="upload_file"
+                    :limit="6">
+                <i class="el-icon-plus"></i>
+                </el-upload>
             </el-form-item>
             <div style="margin-top:300px;">
                 <span class="publishRoomTitle">其他信息</span>
             </div>
             <el-form-item label="联系人姓名">
-                <el-input v-model="houseInfo.cont_name"></el-input>
+                <el-input v-model="houseInfo.contName"></el-input>
             </el-form-item>
             <el-form-item label="联系人电话">
-                <el-input v-model="houseInfo.cont_phone"></el-input>
+                <el-input v-model="houseInfo.contPhone"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="publish">发布</el-button>
@@ -169,39 +181,40 @@
 
 <script>
 import {findSubwayCodeByName,findaddareaCodeByName} from '@/utils/yz.js'
+import {publishNewRoom} from '@/api/room'
 export default {
     data(){
         return{
             houseInfo:{
-                dk_room_type:"0",
-                dk_rental_way:"0",
+                dkRoomType:"0",
+                dkRentalWay:"0",
                 title:'',
                 introduce:'',
                 rental:'',
-                water_rate:'',
-                power_rate:'',
+                waterRate:'',
+                powerRate:'',
                 room:'',
                 hall:'',
                 toilet:'',
                 area:'',
-                dk_orient:'',
+                dkOrient:'',
                 floor:'',
-                total_floor:'',
-                dk_decoration:'',
-                dk_configure:[],
-                dk_rental_type:'',
-                dk_looktime:'',
-                dk_rental_cost:[],
-                dk_rental_demand:[],
+                totalFloor:'',
+                dkDecoration:'',
+                dkConfigures:[],
+                dkRentalType:'',
+                dkLooktime:'',
+                dkRentalCosts:[],
+                dkRentalDemands:[],
                 suitable:'',
-                cont_name:'',
-                cont_phone:'',
+                contName:'',
+                contPhone:'',
                 address:'',
-                add_longitude:'',
-                add_latitude:'',
-                dk_sub_statiom:'无',
-                dk_add_area:'',
-                h_img_path:[],
+                addLongitude:'',
+                addLatitude:'',
+                dkSubStation:'无',
+                dkAddArea:'',
+                hImgPaths:[],
             },
             querySubwayParam: {
                 ak:"1sEQF1CiskKm52GuETRVGAK5wpzBFV7f",
@@ -243,13 +256,13 @@ export default {
                 map.clearOverlays();    //清除地图上所有覆盖物
                 function myFun(){
                     var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
-                    _this.houseInfo.add_longitude = pp.lng;
-                    _this.houseInfo.add_latitude = pp.lat;
+                    _this.houseInfo.addLongitude = pp.lng;
+                    _this.houseInfo.addLatitude = pp.lat;
                     // console.log(pp)//获取经纬度
                     _this.querySubwayParam.location = pp.lat + ',' + pp.lng;
                     _this.querySubway();
                     console.log(local);
-                    _this.houseInfo.dk_add_area = local.Fa.content[0].area_name;
+                    _this.houseInfo.dkAddArea = local.Fa.content[0].area_name;
                     // map.centerAndZoom(pp, 18);
                     // map.addOverlay(new BMap.Marker(pp));    //添加标注
                 }
@@ -264,17 +277,25 @@ export default {
                 params: this.querySubwayParam,
             }).then((res) => {
                 if(res.body.results.length != 0 ){
-                    this.houseInfo.dk_sub_statiom = res.body.results[0].name;
+                    this.houseInfo.dkSubStation = res.body.results[0].name;
                 }else{
-                    this.houseInfo.dk_sub_statiom = "无";
+                    this.houseInfo.dkSubStation = "无";
                 }
                 console.log(res);
             })
         },
         publish(){
-            this.houseInfo.dk_add_area = findaddareaCodeByName(this.houseInfo.dk_add_area);
-            this.houseInfo.dk_sub_statiom = findSubwayCodeByName(this.houseInfo.dk_sub_statiom);
-            console.log(this.houseInfo);
+            var params = JSON.parse(JSON.stringify(this.houseInfo));
+            params.dkAddArea = findaddareaCodeByName(this.houseInfo.dkAddArea);
+            params.dkSubStation = findSubwayCodeByName(this.houseInfo.dkSubStation);
+            
+            console.log(params);
+            publishNewRoom(params).then(res =>{
+                if(res.resultCode == '200'){
+                    this.$message('发布成功');
+                    this.$router.push('/user/publish');
+                }
+            })
         },
         successUploadPicutre(response, file, fileList){
             console.log(response);
@@ -290,10 +311,10 @@ export default {
             this.$message('图片上传失败');
         },
         getImgUrl(fileList){
-            this.houseInfo.h_img_path=[];
+            this.houseInfo.hImgPaths=[];
             if(fileList.length != 0){
                  for(var i = 0 ; i < fileList.length ; i++){
-                    this.houseInfo.h_img_path.push(fileList[i].response.linkurl);
+                    this.houseInfo.hImgPaths.push(fileList[i].response.busObj[0]);
                 }
             }
         },

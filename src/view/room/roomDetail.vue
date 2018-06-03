@@ -3,7 +3,7 @@
         <div style="height:60px"></div>
         <div class="roomDetail">
             <el-carousel class="carousel" :interval="4000" height="400px" :autoplay="false">
-                <el-carousel-item v-for="item in houseInfo.h_img_path" :key="item">
+                <el-carousel-item v-for="item in houseInfo.hImgPath" :key="item">
                     <img :src="item" />
                 </el-carousel-item>
             </el-carousel>
@@ -14,14 +14,14 @@
                 <el-form-item class="ctr">
                     <span>{{houseInfo.ctr}}次浏览</span>
                     <span style="margin-left:20px">{{houseInfo.favorite}}次收藏</span>
-                    <span style="margin-left:20px">{{houseInfo.tip_off}}次举报</span>
+                    <span style="margin-left:20px">{{houseInfo.tipOff}}次举报</span>
                     <div style="float:right;margin-top: -8px;">
-                        <el-button type="text">
+                        <el-button type="text" @click="addMyFavorite">
                             <img src="../../icons/favorite.png" style="height:20px;width:20px;position: relative;top: 2px;" />
                             收藏
                         </el-button>
                         <el-tooltip class="item" effect="dark" content="举报虚假房源" placement="top-start">
-                            <el-button type="text">
+                            <el-button type="text" @click="showTipDialog = true">
                                 <img src="../../icons/tip_off.png" style="height:20px;width:20px;position: relative;top: 2px;" />
                                 举报
                             </el-button>
@@ -52,67 +52,73 @@
                     <span style="margin-left:5px">{{houseInfo.area}}㎡</span>
                 </el-form-item>
                 <el-form-item label="朝向：" class="roomSimpleInfo_middle">
-                    <span v-if="houseInfo.dk_orient == 1">东向</span>
-                    <span v-else-if="houseInfo.dk_orient == 2">南向</span>
-                    <span v-else-if="houseInfo.dk_orient == 3">西向</span>
-                    <span v-else-if="houseInfo.dk_orient == 4">北向</span>
-                    <span v-else-if="houseInfo.dk_orient == 5">南北向</span>
-                    <span v-else-if="houseInfo.dk_orient == 6">东西向</span>
-                    <span v-else-if="houseInfo.dk_orient == 7">东南向</span>
-                    <span v-else-if="houseInfo.dk_orient == 8">西南向</span>
-                    <span v-else-if="houseInfo.dk_orient == 9">东北向</span>
-                    <span v-else-if="houseInfo.dk_orient == 10">西北向</span>
+                    <span v-if="houseInfo.dkOrient == 1">东向</span>
+                    <span v-else-if="houseInfo.dkOrient == 2">南向</span>
+                    <span v-else-if="houseInfo.dkOrient == 3">西向</span>
+                    <span v-else-if="houseInfo.dkOrient == 4">北向</span>
+                    <span v-else-if="houseInfo.dkOrient == 5">南北向</span>
+                    <span v-else-if="houseInfo.dkOrient == 6">东西向</span>
+                    <span v-else-if="houseInfo.dkOrient == 7">东南向</span>
+                    <span v-else-if="houseInfo.dkOrient == 8">西南向</span>
+                    <span v-else-if="houseInfo.dkOrient == 9">东北向</span>
+                    <span v-else-if="houseInfo.dkOrient == 10">西北向</span>
                 </el-form-item>
                 <el-form-item label="楼层：" class="roomSimpleInfo_middle">
                     <span>第{{houseInfo.floor}}层/</span>
-                    <span>共{{houseInfo.total_floor}}层</span>
+                    <span>共{{houseInfo.totalFloor}}层</span>
                 </el-form-item>
                 <el-form-item label="装修情况：">
-                    <span v-if="houseInfo.dk_decoration == 0">毛坯</span>
-                    <span v-else-if="houseInfo.dk_decoration == 1">简单装修</span>
-                    <span v-else-if="houseInfo.dk_decoration == 2">中等装修</span>
-                    <span v-else-if="houseInfo.dk_decoration == 3">精装修</span>
-                    <span v-else-if="houseInfo.dk_decoration == 4">豪华装修</span>
+                    <span v-if="houseInfo.dkDecoration == 0">毛坯</span>
+                    <span v-else-if="houseInfo.dkDecoration == 1">简单装修</span>
+                    <span v-else-if="houseInfo.dkDecoration == 2">中等装修</span>
+                    <span v-else-if="houseInfo.dkDecoration == 3">精装修</span>
+                    <span v-else-if="houseInfo.dkDecoration == 4">豪华装修</span>
                 </el-form-item>
-                <el-form-item label="区域-地铁">
+                <el-form-item label="区域-地铁:">
                     <span>{{getaddressAreaName()}}-</span>
                     <span>{{getsubStationName()}}</span>
                 </el-form-item>
-                <el-form-item label="详细地址">
+                <el-form-item label="详细地址:">
                     {{houseInfo.address}}
                 </el-form-item>
-                <el-button type="primary" style="width:30%">微聊</el-button>
+                <el-form-item>
+                    <span style="font-size: 10px;color: red;">郑重提示：在签订合同之前，切勿支付任何形式的费用，以免上当受骗</span>
+                </el-form-item>
+                <el-button type="primary" style="width:30%" @click="toContact(houseInfo.uId)">微聊</el-button>
             </el-form>
             <el-form class="roomRestInfo">
                 <el-form-item label="房屋配置">
-                    <div v-for=" item in houseInfo.dk_configure" :key="item" class="roomConfig">
+                    <div v-for=" item in houseInfo.dkConfigure" :key="item" class="roomConfig">
                         <p>
-                            <img src="../../icons/bed.png" v-if="item == '1'" />
-                            <img src="../../icons/wifi.png" v-else-if="item == '2'" />
-                            <img src="../../icons/tv.png" v-else-if="item == '3'" />
-                            <img src="../../icons/fridge.png" v-else-if="item == '4'" />
-                            <img src="../../icons/washingMachine.png" v-else-if="item == '5'" />
-                            <img src="../../icons/air-conditioning.png" v-else-if="item == '6'" />
-                            <img src="../../icons/waterHeater.png" v-else-if="item == '7'" />
-                            <img src="../../icons/sofa1.png" v-else-if="item == '8'" />
-                            <img src="../../icons/clothespress.png" v-else-if="item == '9'" />
-                            <img src="../../icons/table_chair.png" v-else-if="item == '10'" />
-                            <img src="../../icons/range_hood.png" v-else-if="item == '11'" />
-                            <img src="../../icons/microwave.png" v-else-if="item == '12'" />
+                            <img src="../../icons/bed.png" v-if="item == 1" />
+                            <img src="../../icons/wifi.png" v-else-if="item == 2" />
+                            <img src="../../icons/tv.png" v-else-if="item == 3" />
+                            <img src="../../icons/fridge.png" v-else-if="item == 4" />
+                            <img src="../../icons/washingMachine.png" v-else-if="item == 5" />
+                            <img src="../../icons/air-conditioning.png" v-else-if="item == 6" />
+                            <img src="../../icons/waterHeater.png" v-else-if="item == 7" />
+                            <img src="../../icons/sofa1.png" v-else-if="item == 8" />
+                            <img src="../../icons/clothespress.png" v-else-if="item == 9" />
+                            <img src="../../icons/table_chair.png" v-else-if="item == 10" />
+                            <img src="../../icons/range_hood.png" v-else-if="item == 11" />
+                            <img src="../../icons/microwave.png" v-else-if="item == 12" />
+                            <el-tag style="margin-left: -25px;" v-else>
+                                未知
+                            </el-tag>
                         </p>
-                        <p style="margin-top: -30px;">
-                            <span>{{getDkConfigureName(item)}}</span>
+                        <p style="margin-top: -35px;">
+                            <span v-if="getDkConfigureName(item)!='未知'">{{getDkConfigureName(item)}}</span>
                         </p>
                     </div>
                     <!-- <img src="../../icons/tv.png" style="height:44px;width:44px;"/> -->
                 </el-form-item>
                 <el-form-item label="租金包含费用">
-                    <el-tag style="margin-left: 15px;" v-for="item in houseInfo.dk_rental_cost" :key="item">
+                    <el-tag style="margin-left: 15px;" v-for="item in houseInfo.dkRentalCost" :key="item">
                         {{getCostName(item)}}
                     </el-tag>
                 </el-form-item>
                 <el-form-item label="租赁要求">
-                    <el-tag style="margin-left: 15px;" v-for="item in houseInfo.dk_rental_demand" :key="item">
+                    <el-tag style="margin-left: 15px;" v-for="item in houseInfo.dkRentalDemand" :key="item">
                         {{getRentalDemandName(item)}}
                     </el-tag>
                 </el-form-item>
@@ -126,69 +132,105 @@
 
                     </div>
                 </el-form-item>
-                <el-form-item label="点评"></el-form-item>
+                <el-form-item label="点评" class="comment">
+                    <el-button type="text" style="z-index:2;position: relative;float: right;margin-right: 10%;top: -20px;" @click="showCommentDialog = true">点评</el-button>
+                    <el-row v-for="item in houseComment" :key="item">
+                        <el-col :span="4">
+                            <img src="../../picture/user-default.png" style="width:50px;height:50px;float:right;margin-top: 50px;" />
+                        </el-col>
+                        <el-col :span="20">
+                            <span>用户名和头像地址俊爷未提供</span>
+                            <span style="margin-left:100px;color:rgba(0,0,0,0.8);">{{item.createTime}}</span>
+                            <br/>
+                            <div style="width:90%;margin-top:5px;">
+                                {{item.myComment}}床很不舒服，我身高163，伸不开脚，要搭床边了，床是一个船型，导致床是内嵌的，不舒服，也很小，我和妈妈两个人睡得很挤，第二天就换房了，还有洗手池，很矮很矮，楼上应该是蓄水罐，妈妈说一宿都在响，屋里也有装修的味道挺大的，离古城东门很近，但是东门没有南门北门有意思，唯一的特别好就是一个戴眼镜的管家妹纸，很热情也帮我们楼上楼下跑调节遥控器，真实评价和感受。
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-pagination
+                        class="pagination-middle"
+                        background
+                        layout="prev, pager, next"
+                        :total="rowsCount"
+                        :page-size="getCommentParam.size"
+                        @current-change="currentChange">
+                    </el-pagination>
+                </el-form-item>
             </el-form>
+
+            <el-dialog
+            style="text-align:center;"
+            title="举报"
+            :visible.sync="showTipDialog"
+            width="30%">
+            <el-input type="textarea" :maxlength="150" class="tipoffInout" v-model="tipOffParam.hTipOffDesc"></el-input>
+            <el-button type="primary" @click="tipHouse">举报</el-button>
+            </el-dialog>
+
+            <el-dialog
+            title="点评"
+            :visible.sync="showCommentDialog"
+            width="30%">
+            <el-input type="textarea" :maxlength="150" class="tipoffInout" v-model="commentHouseParam.myComment"></el-input>
+            <el-button type="primary" @click="commentHouse">点评</el-button>
+            </el-dialog>
         </div>
     </div>
 </template>
 
 <script>
 import {findDkRentalDemandNameByCode,findCostNameByCode,finddDkConfigureNameByCode,findaddareaNameByCode,findSubwayNameByCode} from '@/utils/yz.js'
+import {selectDetail,getHouseCommentPage,commentHouseInfo} from '@/api/room'
+import {collectHouseInfo,tipOffHouse} from '@/api/user'
 export default {
     data(){
         return{
+            hId:'',
             houseInfo:{
-                h_img_path:[
-                    "https://pic.tujia.com/upload/landlordunit/day_170613/thumb/201706130927273987_670_390.jpg",
-                    "https://pic.tujia.com/upload/landlordunit/day_170613/thumb/20170613092553117_670_390.jpg",
-                    "https://pic.tujia.com/upload/landlordunit/day_170613/thumb/201706130926317509_670_390.jpg",
-                    "https://pic.tujia.com/upload/landlordunit/day_170613/thumb/20170613092731473_670_390.jpg",
-                    "https://pic.tujia.com/upload/landlordunit/day_170613/thumb/201706130927183686_670_390.jpg"
-                    ],
-                title:"广医正版铁板烧",//标题
-                ctr:100,//点击率
-                h_id:'',//房源id
-                u_id:'',//用户id
-                dk_rental_way:2,//出租方式
-                room:1,//多少室
-                hall:0,//多少厅
-                toilet:1,//多少卫
-                area:30,//占地面积
-                dk_orient:'6',//朝向
-                dk_decoration:1,//装修类型
-                floor:5,//楼层
-                total_floor:7,//总楼层
-                rental:50000,//租金
-                dk_rental_type:1,//押付方式
-                water_rate:5.5,//水费
-                power_rate:1.5,//电费
-                dk_rental_cost:['1','2','3','4','5','6','7','8','9','10'],//租金包含费用
-                dk_configure:['1','2','3','4','5','6','7','8','9','10','11','12'],//房源配置
-                dk_rental_demand:['1','2','3','4','5','6','7','8','9'],//租赁要求
-                dk_looktime:1,//看房时间
-                suitable:4,//适宜居住人数
-                cont_name:'邬富豪',//房东姓名
-                cont_phone:'',//房东电话
-                introduce:'晋福阁小区位于地铁3号线白云大道北站 从小区门口到地铁站步行仅需要3分钟 小区周边交通非常便利 门口就有超市 出租的房屋面积都在20平米左右 房子在8层 电梯房,视野开阔 通风非常好 楼前没有遮挡 希望找爱干净的年轻人居住 有正当工作 生活作息正常 有需要租房的朋友欢迎随时来电 随时看房！没有其他中间人的介绍费 好房不等人 先来先得！晋福阁小区位于地铁3号线白云大道北站 从小区门口到地铁站步行仅需要3分钟 小区周边交通非常便利 门口就有超市 出租的房屋面积都在20平米左右 房子在8层 电梯房,视野开阔 通风非常好 楼前没有遮挡 希望找爱干净的年轻人居住 有正当工作 生活作息正常 有需要租房的朋友欢迎随时来电 随时看房！没有其他中间人的介绍费 好房不等人 先来先得！​',//简介
-                address:'广东医科大学广东医科大学广东医科大学广东医科大学广东医科大学广东医科大学广东医科大学',//地址详情
-                add_longitude:'113.259166',//经度
-                add_latitude:'23.154266',//纬度
-                favorite:'xx',//收藏次数
-                tip_off:'xx',//举报次数
-                dk_add_area:2,//区域代码
-                dk_sub_station:'1_01'//地铁站代码
+                addLongitude:'113.2756',//经度
+                addLatitude:'23.1171',//纬度
             },
+            rowsCount:1,
+            mapEntity:null,
+            showTipDialog:false,
+            showCommentDialog:false,
+            tipOffParam:{
+                hTipOff:0,
+                hTipOffDesc:''
+            },
+            houseComment:[],
+            getCommentParam:{
+                current: 1,
+                model: {
+                    hComment: 21
+                },
+                size: 1
+            },
+            commentHouseParam:{
+                hComment: 21,
+                myComment: ""
+            }
         }
     },
     mounted(){
+        this.hId = sessionStorage.hId;
+        this.getCommentParam.model.hComment = parseInt(this.hId);
+        this.commentHouseParam.hComment = parseInt(this.hId);
+        this.tipOffParam.hTipOff =parseInt( this.hId);
+        if(this.hId == null || this.hId == ''){
+            this.$message('未选择任何房源');
+            this.$router.push('/index');
+            return;
+        }
         this.createBaiduMap();
+        this.search();
     },
     methods:{
         getaddressAreaName(){
-            return findaddareaNameByCode(this.houseInfo.dk_add_area);
+            return findaddareaNameByCode(this.houseInfo.dkAddArea);
         },
         getsubStationName(){
-            return findSubwayNameByCode(this.houseInfo.dk_sub_station)
+            return findSubwayNameByCode(this.houseInfo.dkSubStation)
         },
         getDkConfigureName(code){
             return finddDkConfigureNameByCode(code);
@@ -203,15 +245,14 @@ export default {
             // 百度地图API功能
             // 在指定div位置创建Map实例
             var map = new BMap.Map("XSDFXPage",{enableMapClick:true});
-            var new_point = new BMap.Point(this.houseInfo.add_longitude,this.houseInfo.add_latitude);
-            map.centerAndZoom(new_point,11);
+            this.mapEntity = map;
+            var new_point = new BMap.Point(this.houseInfo.addLongitude,this.houseInfo.addLatitude);
+            map.centerAndZoom(new_point,17);
 
             map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
 	        map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
             
-            var marker = new BMap.Marker(new_point);  // 创建标注
-			map.addOverlay(marker);              // 将标注添加到地图中
-            map.panTo(new_point); 
+            
             
             var stCtrl = new BMap.PanoramaControl(); //构造全景控件
             stCtrl.setOffset(new BMap.Size(20, 20));
@@ -225,12 +266,87 @@ export default {
             map.addControl(top_left_navigation);     
             // map.addControl(top_right_navigation);
         },
+        search(){
+            console.log(this.hId);
+            selectDetail({hId:this.hId}).then(res =>{
+                if(res.resultCode == '200'){
+                    console.log(res);
+                    this.houseInfo = res.busObj;
+                    this.houseInfo.dkConfigure = res.busObj.dkConfigure.split(",");
+                    this.houseInfo.dkRentalCost = res.busObj.dkRentalCost.split(",");
+                    this.houseInfo.dkRentalDemand = res.busObj.dkRentalDemand.split(",");
+                    this.houseInfo.hImgPath = res.busObj.hImgPath.split(",");
+                    console.log(this.houseInfo);
+
+                    var new_point = new BMap.Point(this.houseInfo.addLongitude,this.houseInfo.addLatitude);
+                    var marker = new BMap.Marker(new_point);  // 创建标注
+                    this.mapEntity.addOverlay(marker);              // 将标注添加到地图中
+                    this.mapEntity.panTo(new_point); 
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+                }
+            });
+            getHouseCommentPage(this.getCommentParam).then(res=>{
+                if(res.resultCode == '200'){
+                    this.rowsCount = res.busObj.total;
+                    this.houseComment = res.busObj.records
+                }
+            });
+
+        },
+        addMyFavorite(){
+            collectHouseInfo({hId:this.hId}).then(res =>{
+                if(res.resultCode == '200'){
+                    this.$message('收藏成功');
+                }
+            })
+        },
+        tipHouse(){
+            tipOffHouse(this.tipOffParam).then(res=>{
+                if(res.resultCode == "200"){
+                    this.$message('举报成功');
+                    this.showTipDialog = false;
+                }
+            })
+        },
+        commentHouse(){
+            commentHouseInfo(this.commentHouseParam).then(res=>{
+                if(res.resultCode == '200'){
+                    this.$message('点评成功');
+                    this.showCommentDialog = false;
+                    getHouseCommentPage(this.getCommentParam).then(res=>{
+                        if(res.resultCode == '200'){
+                            this.rowsCount = res.busObj.total;
+                            this.houseComment = res.busObj.records
+                        }
+                    });
+                }
+            })
+        },
+        currentChange(val){
+            this.getCommentParam.current = val;
+            getHouseCommentPage(this.getCommentParam).then(res=>{
+                if(res.resultCode == '200'){
+                    this.rowsCount = res.busObj.total;
+                    this.houseComment = res.busObj.records
+                }
+            });
+        },
+        toContact(uId){
+            console.log(uId);
+        }
     }
 }
 </script>
 
 <style lang="scss">
     .roomDetail{
+        .tipoffInout{
+            height: 200px;
+            textarea{
+                min-height: 160px !important;
+            }
+        }
         margin-left: 10%;
         width: 80%;
         background-color: rgba(235, 241, 243, 1);
@@ -289,6 +405,12 @@ export default {
             }
         }
         .roomRestInfo{
+            .el-table th, .el-table tr{
+                background-color: rgba(235, 241, 243, 1);
+            }
+            .el-table td, .el-table th.is-leaf{
+                border-bottom: 1px solid #24272e;
+            }
             padding-top: 500px;
             .el-form-item__label{
                 color: rgba(0,0,0,0.8);

@@ -6,16 +6,16 @@
         <div id="chgPwd">
             <el-form class="chgPwdForm" label-position="right">
                 <el-form-item label="原密码：">
-                    <el-input></el-input>
+                    <el-input v-model="param.pwd"></el-input>
                 </el-form-item>
                 <el-form-item label="新密码：">
-                    <el-input></el-input>
+                    <el-input type="password" v-model="param.newPwd"></el-input>
                 </el-form-item>
                 <el-form-item label="重复新密码：">
-                    <el-input></el-input>
+                    <el-input type="password" v-model="checkNewPwd"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" class="chgPwdBtn">确定修改</el-button>
+                    <el-button type="primary" class="chgPwdBtn" @click="toChgPwd">确定修改</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -23,17 +23,41 @@
 </template>
 
 <script>
+import {chgPwd} from '@/api/user'
 export default {
     data(){
         return{
             labelPosition: 'right',
+            param:{
+                pwd:'',
+                newPwd:''
+            },
+            checkNewPwd:'',
         }
     },
     mounted(){
 
     },
     methods:{
-
+        toChgPwd(){
+            if(this.param.pwd == ''){
+                this.$message('原密码不能为空');
+                return;
+            }
+            if(this.param.newPwd == ''){
+                this.$message('新密码不能为空');
+                return;
+            }
+            if(this.param.newPwd != this.checkNewPwd){
+                this.$message('两次密码不一致');
+                return;
+            }
+            chgPwd(this.param).then(res =>{
+                if(res.resultCode == '200'){
+                    this.$message('修改密码成功');
+                }
+            })
+        },
     }
 }
 </script>

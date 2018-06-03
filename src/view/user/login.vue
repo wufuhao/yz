@@ -4,7 +4,7 @@
             <el-button type="text" @click="backToHome">返回首页</el-button>
         </div>
         <div class="top-logo">
-            <img class="logoImg" src="../../picture/易租logo2.png"/>
+            <img class="logoImg" src="../../picture/yizuLogo2.png"/>
         </div>
         <el-form class="loginDetail">
             <el-form-item class="selectLogin">
@@ -12,13 +12,13 @@
                 <el-button style="width:45%" type="text" @click="generalLogin = false">手机动态密码登录</el-button>
             </el-form-item>
             <el-form-item v-if="generalLogin">
-                <el-input placeholder="邮箱/手机号/用户名" class="longInput"></el-input>
+                <el-input placeholder="邮箱/手机号/用户名" class="longInput" v-model="loginByLoginIdParam.loginId"></el-input>
             </el-form-item>
             <el-form-item v-if="!generalLogin">
                 <el-input placeholder="手机号" class="longInput" v-model="loginByPhoneParam.phone"></el-input>
             </el-form-item>
             <el-form-item v-if="generalLogin">
-                <el-input placeholder="密码" class="longInput"></el-input>
+                <el-input type="password" placeholder="密码" class="longInput" v-model="loginByLoginIdParam.pwd"></el-input>
             </el-form-item>
             <el-form-item  v-if="!generalLogin" style="display: block;">
                 <el-input placeholder="请输入手机动态密码" class="shortInput" v-model="loginByPhoneParam.code"></el-input>
@@ -46,7 +46,7 @@
 
 <script>
 import SIdentify from '../../components/identify'
-import {sendCheckMsg,register,loginByPhone} from '@/api/user'
+import {sendCheckMsg,register,loginByPhone,loginByLoginId} from '@/api/user'
 export default {
     components: {SIdentify},  
     data(){
@@ -67,6 +67,10 @@ export default {
                 phone:'',
                 msgId:'',
                 code:''
+            },
+            loginByLoginIdParam:{
+                loginId:'',
+                pwd:''
             },
         }
     },
@@ -90,7 +94,17 @@ export default {
            }
 
            if(this.generalLogin){
-
+               if(this.loginByLoginIdParam.loginId == '' || this.loginByLoginIdParam.pwd == ''){
+                   this.$message('账号/密码不能为空');
+                   return;
+               }
+               loginByLoginId(this.loginByLoginIdParam).then(res =>{
+                   if(res.resultCode == "200"){
+                        sessionStorage.user = res.busObj.uId;
+                        this.$router.push('/index');
+                    }
+                    this.checkedCodeUsed = true;
+               })
            }else{
                if(this.loginByPhoneParam.phone == ''){
                    this.$message('手机号不能为空');

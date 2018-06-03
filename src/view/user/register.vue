@@ -4,7 +4,7 @@
             <el-button type="text" @click="backToHome">返回首页</el-button>
         </div>
         <div class="top-logo">
-            <img class="logoImg" src="../../picture/易租logo2.png"/>
+            <img class="logoImg" src="../../picture/yizuLogo2.png"/>
         </div>
         <div class="registerDetail">
             <el-form class="registerForm">
@@ -26,9 +26,9 @@
                        <el-button type="primary" @click="getCheckMsg">获取手机验证码</el-button>
                     </div>
                 </el-form-item>
-                <!-- <el-form-item>
-                    <el-input placeholder="登录密码" type="password" style="width:100%"></el-input>
-                </el-form-item> -->
+                <el-form-item>
+                    <el-input placeholder="登录密码" v-model="registeParam.pwd" type="password" style="width:100%"></el-input>
+                </el-form-item>
                 <el-checkbox v-model="checked"><el-button type="text">《易租网服务协议》</el-button></el-checkbox>
                 <br /><br /><br />
                 <el-button class="registerBtn" @click="registerUser">注册</el-button>
@@ -58,6 +58,7 @@ export default {
                 phone:"",
                 msgId:"",
                 code:"",
+                pwd:''
             },
         }
     },
@@ -97,6 +98,10 @@ export default {
             }
             if( this.checkCodeUsed){
                 this.$message('图形验证码失效，请刷新图形验证码');
+                return;
+            }
+            if( this.registeParam.pwd == ''){
+                this.$message('密码不能为空');
                 return;
             }
         sendCheckMsg({phone:this.registeParam.phone})

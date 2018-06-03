@@ -19,9 +19,16 @@ import changePassword from '@/view/user/chgPwd'
 import publishNewRoom from '@/view/room/publishNewRoom'
 import roomSearch from '@/view/room/roomSearch'
 import roomDetail from '@/view/room/roomDetail'
+import roomCompare from '@/view/room/roomCompare'
 
 
 import backgroundLogin from '@/view/background/login'
+import houseAdmit from '@/view/background/houseAdmit'
+import houseManager from '@/view/background/houseManager'
+import tipOffManager from '@/view/background/tipOffManager'
+import userManager from '@/view/background/userManager'
+
+import test from '@/view/user/contactTest'
 
 Vue.use(Router)
 
@@ -68,17 +75,29 @@ export default new Router({
       children:[
         {path:'search',name:'搜索',component:roomSearch},
         {path:'detail',name:'详情',component:roomDetail},
+        {path:'compare',name:'对比',component:roomCompare},
       ]
     },
     {
       path:'/background',
       name:'后台',
-      component:backgroundLayout
+      component:backgroundLayout,
+      children:[
+        {path:'houseAdmit',name:'房源审核',component:houseAdmit},
+        {path:'houseManager',name:'房源管理',component:houseManager},
+        {path:'userManager',name:'账号管理',component:userManager},
+        {path:'tipOffManager',name:'举报管理',component:tipOffManager},
+      ]
     },
     {
       path:'/background/Login',
       name:'管理端登录',
       component:backgroundLogin
+    },
+    {
+      path:'/contactTest',
+      name:'在线聊天测试',
+      component:test
     }
   ]
 })

@@ -6,11 +6,20 @@
         <div id="userLike">
             <el-table :data="houseList"  @selection-change="handleSelectionChange">
                 <el-table-column type="selection"></el-table-column>
-                <el-table-column prop="title" label="房源标题"></el-table-column>
-                <el-table-column prop="status" label="状态"></el-table-column>
-                <el-table-column label="操作">
+                <el-table-column prop="houseInfoTitle" label="房源标题"></el-table-column>
+                <el-table-column label="状态" align="center" width="200">
                     <template scope="scope">
-                        <el-button type="text" >删除</el-button>
+                        <span v-if="scope.row.houseInfoPubStatus  == '2'">正常</span>
+                        <span v-else-if="scope.row.houseInfoPubStatus  == '3'">已过期</span>
+                        <span v-else-if="scope.row.houseInfoPubStatus  == '4'">已过期</span>
+                        <span v-else-if="scope.row.houseInfoPubStatus  == '5'">已过期</span>
+                        <span v-else-if="scope.row.houseInfoPubStatus  == '6'">已过期</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作" width="200">
+                    <template scope="scope">
+                        <el-button type="text" v-if="scope.row.houseInfoPubStatus  == '2'" @click="toDetail(scope.row)">查看</el-button>
+                        <el-button type="text" @click="delFavorite(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -18,8 +27,8 @@
                 class="pagination-middle"
                 background
                 layout="prev, pager, next"
-                :total="1000"
-                :page-size="10"
+                :total="rowsCount"
+                :page-size="queryParam.size"
                 @current-change="currentChange">
             </el-pagination>
         </div>
@@ -27,41 +36,49 @@
 </template>
 
 <script>
+import {selectMyFavorites,cancelCollectHouse} from '@/api/user'
 export default {
     data(){
         return{
-            houseList:[
-                {
-                    title:'我发布的房源标题1',
-                    status:'正常',
-                    id:1,
-                    createTime:'2017-05-01'
-                },
-                {
-                    title:'我发布的房源标题2',
-                    status:'已失效',
-                    id:2,
-                    createTime:'2018-06-01'
-                },
-                {
-                    title:'20字的房源标题啊啊啊啊啊啊啊啊啊啊啊啊啊',
-                    status:'已失效',
-                    id:3,
-                    createTime:'2018-06-02'
-                },
-            ],
-            selectionHouses:[]
+            houseList:[],
+            selectionHouses:[],
+            queryParam:{
+                current:1,
+                size:10
+            },
+            rowsCount:1,
         }
     },
     mounted(){
-
+        this.search();
     },
     methods:{
         handleSelectionChange(val){
             this.selectionHouses = val;
         },
-        currentChange(){
-            
+        currentChange(val){
+            this.queryParam.current = val;
+            this.search();
+        },
+        search(){
+            selectMyFavorites(this.queryParam).then(res =>{
+                if(res.resultCode == '200'){
+                    this.rowsCount = res.busObj.total;
+                    this.houseList = res.busObj.records;
+                }
+            })
+        },
+        delFavorite(row){
+            cancelCollectHouse({hId:row.uFId}).then(res =>{
+                if(res.resultCode == '200'){
+                    this.$message('删除收藏成功');
+                    this.search();
+                }
+            })
+        },
+        toDetail(row){
+            sessionStorage.hId = row.hFavorite;
+            this.$router.push('/room/detail')
         },
     }
 }

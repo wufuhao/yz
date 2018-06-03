@@ -14,13 +14,14 @@ module.exports = {
       '/yz': {
         // target: 'http://192.168.253.5:8085',
         target: 'http://47.106.115.158:8085',
-        pathRewrite: {'^/yz' : '/'}, // 重写路径
+        // pathRewrite: {'^/yz' : '/'}, // 重写路径
         changeOrigin: true
       },
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    // host: 'localhost', // can be overwritten by process.env.HOST
+    host: 'localhost',
     port: 9528, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
@@ -50,8 +51,16 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
+    proxyTable: {
+      '/yz': {
+        // target: 'http://192.168.253.5:8085',
+        target: 'http://47.106.115.158:8085',
+        pathRewrite: {'^/yz' : '/'}, // 重写路径
+        changeOrigin: true
+      },
+    },
     /**
      * Source Maps
      */
