@@ -3,13 +3,13 @@
         <div class="block">
             <el-carousel height="550px">
                 <el-carousel-item>
-                    <img src="../picture/index1.png" style="height:100%;width:100%" />
+                    <img src="http://huzijun.oss-cn-shenzhen.aliyuncs.com/b75d8dc3-dfd7-4ca4-a250-4bb1b25be008jpg" style="height:100%;width:100%" />
                 </el-carousel-item>
                 <el-carousel-item>
-                    <img src="../picture/index2.jpg" style="height:100%;width:100%" />
+                    <img src="http://huzijun.oss-cn-shenzhen.aliyuncs.com/57031ce3-9be5-46a4-b7f4-015d26f01917jpg" style="height:100%;width:100%" />
                 </el-carousel-item>
                 <el-carousel-item>
-                    <img src="../picture/index3.jpg" style="height:100%;width:100%" />
+                    <img src="https://huzijun.oss-cn-shenzhen.aliyuncs.com/20180604150308.png" style="height:100%;width:100%" />
                 </el-carousel-item>
             </el-carousel>
         </div>

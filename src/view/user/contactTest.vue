@@ -106,6 +106,7 @@ export default {
     },
     mounted(){
         // this.createWebSocket();
+        this.test();
     },
     methods:{
         createWebSocket(){
@@ -134,6 +135,35 @@ export default {
             this.historyDetil = this.history[this.hUserIdNow.uId];
             console.log(this.historyDetil);
         },
+        test(){
+            var ws1 = new WebSocket('ws://192.168.253.5:8085/yz/chat/1')
+            ws1.onopen = function(evt) { 
+                console.log("ws1 Connection open ...");
+                ws1.send("3>  1发送消息给4啦");
+            };
+            ws1.onmessage = function(evt) {
+            console.log( "ws1 Received Message: " + evt.data);
+                // if(evt.data != "Welcome" && evt.data != "ByeBye" ){
+                //     console.log(JSON.parse(evt.data));
+                // }else{
+                //     console.log(evt.data);
+                // }
+            };
+            ws1.onerror = function(evt) {
+                console.log( "ws1 onerror Message: " + evt.data);
+            };
+
+            // var ws2 = new WebSocket('ws://192.168.253.5:8085/yz/chat/2')
+            // ws2.onopen = function(evt) { 
+            //     console.log("ws2 Connection open ...");
+            // };
+            // ws2.onmessage = function(evt) {
+            // console.log( "ws2 Received Message: " + evt.data);
+            // };
+
+            // ws2.send(1+">  2发送消息给1啦");
+            
+        }
     }
 }
 </script>

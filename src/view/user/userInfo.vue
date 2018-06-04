@@ -7,7 +7,7 @@
             <!-- <div  class="userImg">
                 <img src="https://wx.qlogo.cn/mmopen/vi_32/GwPIHmRJmaOyS0oWWElbCXERvH4Xgk1SX3nR4trmSR07QiccicmibcepvsCnWpO1gIERlaQH0LyXeEd3W7XYUT3Zw/0" class="user-pic">
             </div> -->
-            <el-form class="userForm">
+            <el-form class="userForm" v-loading="true">
                 <el-form-item class="picForm">
                     <el-upload
                     action="/yz/usr/uploadUserIcon"
@@ -52,7 +52,7 @@ export default {
     data(){
         return{
            queryParam:{
-                uImgPath:'/static/img/user-default.6aa5c4f.png',
+                uImgPath:'../../picture/user-default.png',
                 // phoneNo:'13246307464',
                 email:null,
                 createTime:'2018-05-01 15:30:31',
@@ -87,9 +87,24 @@ export default {
             getUserInfo().then(res=>{
                 if(res.resultCode == '200'){
                     this.userInfo = res.busObj;
+                    this.queryParam.uImgPath = this.userInfo.uImgPath;
+                    this.queryParam.email = this.userInfo.email;
+                    this.queryParam.name = this.userInfo.name;
+                    this.queryParam.createTime = this.userInfo.createTime;
                 }
             })
-        }
+        },
+        // lazyLoad(){
+        //     var i = 60 ;
+        //     var timer = setInterval(() => {
+        //         if (i > 0) {
+        //             i--;
+        //             console.log(i)
+        //         } else {
+        //             clearInterval(timer);
+        //         }
+        //         }, 1000)
+        // }
     }
 }
 </script>

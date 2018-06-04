@@ -27,6 +27,7 @@ import houseAdmit from '@/view/background/houseAdmit'
 import houseManager from '@/view/background/houseManager'
 import tipOffManager from '@/view/background/tipOffManager'
 import userManager from '@/view/background/userManager'
+import dataAnalysis from '@/view/background/dataAnalysis'
 
 import test from '@/view/user/contactTest'
 
@@ -87,6 +88,7 @@ export default new Router({
         {path:'houseManager',name:'房源管理',component:houseManager},
         {path:'userManager',name:'账号管理',component:userManager},
         {path:'tipOffManager',name:'举报管理',component:tipOffManager},
+        {path:'dataAnalysis',name:'数据分析',component:dataAnalysis},
       ]
     },
     {

@@ -23,7 +23,7 @@
             <el-form-item  v-if="!generalLogin" style="display: block;">
                 <el-input placeholder="请输入手机动态密码" class="shortInput" v-model="loginByPhoneParam.code"></el-input>
                 <div class="getPhonePwd">
-                    <el-button type="primary" @click="getCheckMsg">获取手机验证码</el-button>
+                    <el-button type="primary" @click="getCheckMsg" :disabled="getPhoneCodeDisable" style="width:150px">{{TimeCount}}</el-button>
                 </div>
             </el-form-item>
             <el-form-item>
@@ -52,7 +52,7 @@ export default {
     data(){
         return{
             note:{
-                backgroundImage:'url(' + require('../../picture/regist.jpg') + ')',
+                backgroundImage:'url(' + 'http://huzijun.oss-cn-shenzhen.aliyuncs.com/b54a9e82-71ef-4d38-9b26-2dfa13a10c3bjpg' + ')',
                 width:'100%',
                 height:'900px'
             },
@@ -72,6 +72,9 @@ export default {
                 loginId:'',
                 pwd:''
             },
+            getPhoneCodeDisable:false,
+            TimeCount:'获取手机验证码',
+            timer:null,
         }
     },
     mounted(){
@@ -128,6 +131,21 @@ export default {
             if(this.loginByPhoneParam.phone == null || this.loginByPhoneParam.phone == ""){
                 this.$message('手机号不能为空');
                 return;
+            }
+            this.getPhoneCodeDisable = true;
+            var TIME_COUNT = 60;
+            if (!this.timer) {
+                this.timer = setInterval(() => {
+                if (TIME_COUNT > 0 && TIME_COUNT <= 60) {
+                    TIME_COUNT--;
+                    this.TimeCount = TIME_COUNT + "s后重新获取";
+                } else {
+                    this.TimeCount = '获取手机验证码';
+                    this.getPhoneCodeDisable = false;
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
+                }, 1000)
             }
             sendCheckMsg({phone:this.loginByPhoneParam.phone})
             .then(res =>{

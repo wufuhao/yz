@@ -23,7 +23,7 @@
                 <i class="el-icon-setting"></i>
                 <span slot="title">举报审核</span>
             </el-menu-item>
-            <el-menu-item index="4">
+            <el-menu-item index="/background/dataAnalysis">
                 <i class="el-icon-setting"></i>
                 <span slot="title">数据分析</span>
             </el-menu-item>

@@ -1,6 +1,7 @@
 <template>
     <div>
         <div style="height:60px"></div>
+        
         <div class="roomDetail">
             <el-carousel class="carousel" :interval="4000" height="400px" :autoplay="false">
                 <el-carousel-item v-for="item in houseInfo.hImgPath" :key="item">
@@ -437,5 +438,15 @@ export default {
             }
         }
     }
-   
+    .contact{
+        position:absolute;
+        position:fixed;
+        right:40px;
+        bottom: 40px;
+        height: 500px;
+        width: 400px;
+        border: 1px solid red;
+        background-color: #24272e;
+        z-index: 3;
+    }
 </style>

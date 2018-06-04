@@ -219,7 +219,7 @@ export default {
                     this.houseList = res.busObj.records;
                     this.rowsCount = res.busObj.total;
                     for(var j = 0 ; j < this.houseList.length ; j++){
-                        this.houseList[j].hImgPath = this.houseList[j].split(',')[0];
+                        this.houseList[j].hImgPath = this.houseList[j].hImgPath.split(',')[0];
                     }
                 }
             })

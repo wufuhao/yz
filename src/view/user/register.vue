@@ -23,7 +23,7 @@
                 <el-form-item>
                     <el-input placeholder="请输入手机验证码" v-model="registeParam.code"></el-input>
                     <div class="code">
-                       <el-button type="primary" @click="getCheckMsg">获取手机验证码</el-button>
+                       <el-button type="primary" @click="getCheckMsg" :disabled="getPhoneCodeDisable" style="width:150px">{{TimeCount}}</el-button>
                     </div>
                 </el-form-item>
                 <el-form-item>
@@ -45,7 +45,7 @@ export default {
     data(){
         return{
             note:{
-                backgroundImage:'url(' + require('../../picture/regist.jpg') + ')',
+                backgroundImage:'url(' + 'http://huzijun.oss-cn-shenzhen.aliyuncs.com/b54a9e82-71ef-4d38-9b26-2dfa13a10c3bjpg' + ')',
                 width:'100%',
                 height:'900px'
             },
@@ -60,6 +60,9 @@ export default {
                 code:"",
                 pwd:''
             },
+            getPhoneCodeDisable:false,
+            TimeCount:'获取手机验证码',
+            timer:null,
         }
     },
     mounted(){
@@ -104,7 +107,23 @@ export default {
                 this.$message('密码不能为空');
                 return;
             }
-        sendCheckMsg({phone:this.registeParam.phone})
+
+            this.getPhoneCodeDisable = true;
+            var TIME_COUNT = 60;
+            if (!this.timer) {
+                this.timer = setInterval(() => {
+                if (TIME_COUNT > 0 && TIME_COUNT <= 60) {
+                    TIME_COUNT--;
+                    this.TimeCount = TIME_COUNT + "s后重新获取";
+                } else {
+                    this.TimeCount = '获取手机验证码';
+                    this.getPhoneCodeDisable = false;
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
+                }, 1000)
+            }
+            sendCheckMsg({phone:this.registeParam.phone})
             .then(res =>{
                 console.log(res);
                 this.registeParam.msgId = res.resultMessage;
@@ -135,6 +154,8 @@ export default {
                 .then(res =>{
                     console.log(res);
                     this.checkCodeUsed = true;
+                    sessionStorage.user = res.busObj.uId;
+                    this.$router.push('/index');
                 })
 
         }
