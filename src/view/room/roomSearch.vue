@@ -99,7 +99,13 @@
             </el-form-item>
         </el-form>
         <div class="baidumap" id="XSDFXPage" hidden></div>
-        <div>排序方式</div>
+        <div>
+            排序方式
+            <el-button type="text" style="width:8%;margin-top: 0%;margin-left: 0%;" @click="getNewHouse">最新房源</el-button>
+            <el-button type="text" style="width:8%;margin-top: 0%;margin-left: 0%;" @click="getFavorite">收藏最多</el-button>
+            <el-button type="text" style="width:8%;margin-top: 0%;margin-left: 0%;" @click="getCTR">查看最多</el-button>
+            <el-button type="text" style="width:8%;margin-top: 0%;margin-left: 0%;" @click="getLowPrice">价格最低</el-button>   
+        </div>
         <div>
                
             <el-table :data="houseList">
@@ -274,7 +280,27 @@ export default {
                 window.open("#/room/compare");
                 this.compares = [];
             }
-        }
+        },
+        getNewHouse(){
+            this.queryParam.orderBy = 'publish_time';
+            this.queryParam.asc = false;
+            this.search();
+        },
+        getFavorite(){
+            this.queryParam.orderBy = 'favorite';
+            this.queryParam.asc = false;
+            this.search();
+        },
+        getCTR(){
+            this.queryParam.orderBy = 'ctr';
+            this.queryParam.asc = false;
+            this.search();
+        },
+        getLowPrice(){
+            this.queryParam.orderBy = 'rental';
+            this.queryParam.asc = true;
+            this.search();
+        },
     }
 }
 </script>

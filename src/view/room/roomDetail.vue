@@ -137,14 +137,14 @@
                     <el-button type="text" style="z-index:2;position: relative;float: right;margin-right: 10%;top: -20px;" @click="showCommentDialog = true">点评</el-button>
                     <el-row v-for="item in houseComment" :key="item">
                         <el-col :span="4">
-                            <img src="../../picture/user-default.png" style="width:50px;height:50px;float:right;margin-top: 50px;" />
+                            <img :src="uIcon" style="width:50px;height:50px;float:right;margin-top: 50px;" />
                         </el-col>
                         <el-col :span="20">
-                            <span>用户名和头像地址俊爷未提供</span>
+                            <span>{{item.name}}</span>
                             <span style="margin-left:100px;color:rgba(0,0,0,0.8);">{{item.createTime}}</span>
                             <br/>
                             <div style="width:90%;margin-top:5px;">
-                                {{item.myComment}}床很不舒服，我身高163，伸不开脚，要搭床边了，床是一个船型，导致床是内嵌的，不舒服，也很小，我和妈妈两个人睡得很挤，第二天就换房了，还有洗手池，很矮很矮，楼上应该是蓄水罐，妈妈说一宿都在响，屋里也有装修的味道挺大的，离古城东门很近，但是东门没有南门北门有意思，唯一的特别好就是一个戴眼镜的管家妹纸，很热情也帮我们楼上楼下跑调节遥控器，真实评价和感受。
+                                {{item.myComment}}
                             </div>
                         </el-col>
                     </el-row>
@@ -164,7 +164,7 @@
             title="举报"
             :visible.sync="showTipDialog"
             width="30%">
-            <el-input type="textarea" :maxlength="150" class="tipoffInout" v-model="tipOffParam.hTipOffDesc"></el-input>
+            <el-input type="textarea" resize="none" :maxlength="150" class="tipoffInout" v-model="tipOffParam.hTipOffDesc"></el-input>
             <el-button type="primary" @click="tipHouse">举报</el-button>
             </el-dialog>
 
@@ -172,7 +172,7 @@
             title="点评"
             :visible.sync="showCommentDialog"
             width="30%">
-            <el-input type="textarea" :maxlength="150" class="tipoffInout" v-model="commentHouseParam.myComment"></el-input>
+            <el-input resize="none" type="textarea" :maxlength="150" class="tipoffInout" v-model="commentHouseParam.myComment"></el-input>
             <el-button type="primary" @click="commentHouse">点评</el-button>
             </el-dialog>
         </div>
@@ -182,7 +182,7 @@
 <script>
 import {findDkRentalDemandNameByCode,findCostNameByCode,finddDkConfigureNameByCode,findaddareaNameByCode,findSubwayNameByCode} from '@/utils/yz.js'
 import {selectDetail,getHouseCommentPage,commentHouseInfo} from '@/api/room'
-import {collectHouseInfo,tipOffHouse} from '@/api/user'
+import {collectHouseInfo,tipOffHouse,getUserInfo} from '@/api/user'
 export default {
     data(){
         return{
@@ -205,7 +205,7 @@ export default {
                 model: {
                     hComment: 21
                 },
-                size: 1
+                size: 10
             },
             commentHouseParam:{
                 hComment: 21,
@@ -334,6 +334,16 @@ export default {
             });
         },
         toContact(uId){
+            getUserInfo({uId:uId}).then(res=>{
+                if(res.resultCode == '200'){
+                    var hUserIdNow = {
+                        uId:res.busObj.uId,
+                        icon:res.busObj.uImgPath,
+                        name:res.busObj.name
+                    };
+                    this.$emit('connHouseUser',hUserIdNow);
+                }
+            })
             console.log(uId);
         }
     }

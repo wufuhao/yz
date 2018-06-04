@@ -15,5 +15,7 @@ export function formatDate(date, fmt) {
         return year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
     }else if(fmt=="yyyy-MM-dd"){
         return year+'-'+month+'-'+day;
+    }else if(fmt == 'hh:mm'){
+        return hour+":"+minutes;
     }
 };

@@ -7,7 +7,7 @@
             <!-- <div  class="userImg">
                 <img src="https://wx.qlogo.cn/mmopen/vi_32/GwPIHmRJmaOyS0oWWElbCXERvH4Xgk1SX3nR4trmSR07QiccicmibcepvsCnWpO1gIERlaQH0LyXeEd3W7XYUT3Zw/0" class="user-pic">
             </div> -->
-            <el-form class="userForm" v-loading="true">
+            <el-form class="userForm">
                 <el-form-item class="picForm">
                     <el-upload
                     action="/yz/usr/uploadUserIcon"

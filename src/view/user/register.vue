@@ -87,7 +87,7 @@ export default {
             console.log(this.identifyCode);
         },
         backToHome(){
-            this.$router.push('/index')
+            this.$router.push('/top/index')
         },
         getCheckMsg(){
             if(this.registeParam.phone == null || this.registeParam.phone == ""){
@@ -108,27 +108,27 @@ export default {
                 return;
             }
 
-            this.getPhoneCodeDisable = true;
-            var TIME_COUNT = 60;
-            if (!this.timer) {
-                this.timer = setInterval(() => {
-                if (TIME_COUNT > 0 && TIME_COUNT <= 60) {
-                    TIME_COUNT--;
-                    this.TimeCount = TIME_COUNT + "s后重新获取";
-                } else {
-                    this.TimeCount = '获取手机验证码';
-                    this.getPhoneCodeDisable = false;
-                    clearInterval(this.timer);
-                    this.timer = null;
-                }
-                }, 1000)
-            }
+            
             sendCheckMsg({phone:this.registeParam.phone})
             .then(res =>{
-                console.log(res);
-                this.registeParam.msgId = res.resultMessage;
-                console.log(this.registeParam)
-                // this.checkCodeUsed = true;
+                if(res.resultCode = "200"){
+                    this.getPhoneCodeDisable = true;
+                    var TIME_COUNT = 60;
+                    if (!this.timer) {
+                        this.timer = setInterval(() => {
+                        if (TIME_COUNT > 0 && TIME_COUNT <= 60) {
+                            TIME_COUNT--;
+                            this.TimeCount = TIME_COUNT + "s后重新获取";
+                        } else {
+                            this.TimeCount = '获取手机验证码';
+                            this.getPhoneCodeDisable = false;
+                            clearInterval(this.timer);
+                            this.timer = null;
+                        }
+                        }, 1000)
+                    }
+                    this.registeParam.msgId = res.resultMessage;
+                }
             })
         },
         registerUser(){
@@ -154,7 +154,7 @@ export default {
                 .then(res =>{
                     console.log(res);
                     this.checkCodeUsed = true;
-                    sessionStorage.user = res.busObj.uId;
+                    sessionStorage.user = JSON.stringify(res.busObj);
                     this.$router.push('/index');
                 })
 

@@ -69,7 +69,8 @@ export default {
             })
         },
         delFavorite(row){
-            cancelCollectHouse({hId:row.uFId}).then(res =>{
+            console.log(row);
+            cancelCollectHouse({userFavoriteId:row.uFId}).then(res =>{
                 if(res.resultCode == '200'){
                     this.$message('删除收藏成功');
                     this.search();

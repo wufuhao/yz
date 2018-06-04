@@ -23,7 +23,7 @@
                 </el-menu-item>
                 <el-menu-item index="3" ><el-button type="text" @click="toHome" class="topBtn">首页</el-button></el-menu-item>
             </el-menu>
-            <div  style="position:absolute;z-index:2; margin-left:90%;height:60px">
+            <div  style="position:absolute;z-index:2; margin-left:85%;height:60px">
                 <div v-if="user == null">
                     <el-button type="text" class="topBtn" @click="toLogin" >登录</el-button>
                     <el-button type="text" class="topBtn" @click="toRegister" >注册</el-button>
@@ -31,6 +31,7 @@
                 <div v-else>
                     <el-button type="text" class="topBtn" @click="toUserInfo" >我的易租</el-button>
                     <el-button type="text" class="topBtn" @click="toLoginOut" >注销</el-button>
+                    <el-button type="text" class="topBtn" @click="toContact" >聊天</el-button>
                 </div>
             </div>
         </div>
@@ -117,10 +118,15 @@ export default {
         toUserInfo(){
             this.$router.push('/user/info');
         },
+        toContact(){
+            this.$emit('toContact');
+            console.log(sessionStorage.user);
+        },
         toLoginOut(){
             delete sessionStorage.user;
             this.user = null;
-            this.$router.push('/index');
+            this.$emit('closeWs');
+            this.$router.push('/top/index');
             // window.location.reload();
         },
         toRegister(){
@@ -133,7 +139,7 @@ export default {
             console.log(key, keyPath);
         },
         toHome(){
-            this.$router.push("/index");
+            this.$router.push("/top/index");
         },
         toTargetPage(url){
             this.$router.push(url);

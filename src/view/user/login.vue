@@ -103,8 +103,9 @@ export default {
                }
                loginByLoginId(this.loginByLoginIdParam).then(res =>{
                    if(res.resultCode == "200"){
-                        sessionStorage.user = res.busObj.uId;
-                        this.$router.push('/index');
+                        sessionStorage.user = JSON.stringify(res.busObj);
+                        this.$emit('toConnectWs');
+                        this.$router.push('/top/index');
                     }
                     this.checkedCodeUsed = true;
                })
@@ -120,7 +121,8 @@ export default {
                loginByPhone(this.loginByPhoneParam)
                 .then(res =>{
                     if(res.resultCode == "200"){
-                        sessionStorage.user = res.busObj.uId;
+                        sessionStorage.user = JSON.stringify(res.busObj);
+                        this.$emit('toConnectWs');
                         this.$router.push('/index');
                     }
                     this.checkedCodeUsed = true;
@@ -170,7 +172,7 @@ export default {
             console.log(this.identifyCode);
         },
         backToHome(){
-            this.$router.push('/index')
+            this.$router.push('/top/index')
         },
     }
 }
