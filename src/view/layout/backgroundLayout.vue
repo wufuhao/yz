@@ -23,13 +23,17 @@
                 <i class="el-icon-setting"></i>
                 <span slot="title">举报审核</span>
             </el-menu-item>
-            <el-menu-item index="/background/dataAnalysis">
+            <el-menu-item index="/background/userAnalysis">
                 <i class="el-icon-setting"></i>
-                <span slot="title">数据分析</span>
+                <span slot="title">用户分析</span>
+            </el-menu-item>
+            <el-menu-item index="/background/areaAnalysis">
+                <i class="el-icon-setting"></i>
+                <span slot="title">区域分析</span>
             </el-menu-item>
         </el-menu>
         <!-- <levelbar class="top-breadcrumb"></levelbar> -->
-        <router-view></router-view>
+        <router-view style="padding-top:80px;"></router-view>
     </div>
 </template>
 

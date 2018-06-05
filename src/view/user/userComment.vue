@@ -16,10 +16,11 @@
                 </el-table-column>
             </el-table>
             <el-pagination
+                style="text-align:center"
                 class="pagination-middle"
                 background
                 layout="prev, pager, next"
-                :total="1000"
+                :total="1"
                 :page-size="10"
                 @current-change="currentChange">
             </el-pagination>
@@ -33,22 +34,22 @@ export default {
         return{
             houseList:[
                 {
-                    title:'我发布的房源标题1',
-                    comment:'什么垃圾房源',
+                    title:'体育西最新单间，豪华装修',
+                    comment:'区域挺好的，就是贵了些',
                     id:1,
-                    createTime:'2017-05-01'
+                    createTime:'2018-06-04'
                 },
                 {
-                    title:'我发布的房源标题2',
+                    title:'仑头小学一房一厅 15分钟到琶洲地铁站',
                     comment:'交通便利',
                     id:2,
-                    createTime:'2018-06-01'
+                    createTime:'2018-06-03'
                 },
                 {
-                    title:'20字的房源标题啊啊啊啊啊啊啊啊啊啊啊啊啊',
-                    comment:'多字数评论多字数评论多字数评论多字数评论多字数评论多字数评论多字数评论多字数评论多字数评论多字数评论多字数评论多字数评论多字数评论多字数评论多字数评论',
+                    title:'西朗地铁50米直达公寓，1号线8号线广佛线首选',
+                    comment:'附近有菜市场，比较吵闹，看个人需要选择',
                     id:3,
-                    createTime:'2018-06-02'
+                    createTime:'2018-06-01'
                 },
             ],
             selectionHouses:[]

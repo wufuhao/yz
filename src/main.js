@@ -6,6 +6,7 @@ import router from './router'
 import SIdentify from './components/identify'
 import VueJsonp from 'vue-jsonp'
 import VueResource from 'vue-resource' 
+import echarts from "echarts"
 // import '@/styles/global.css'
 Vue.config.productionTip = false
 Vue.use(ElementUI,SIdentify,VueJsonp);

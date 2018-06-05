@@ -16,6 +16,7 @@ import userPublish from '@/view/user/userPublish'
 import userComment from '@/view/user/userComment'
 import userFoot from '@/view/user/userFoot'
 import userTipoff from '@/view/user/userTipoff'
+import userMessage from '@/view/user/userMessage'
 import changePassword from '@/view/user/chgPwd'
 
 
@@ -30,7 +31,8 @@ import houseAdmit from '@/view/background/houseAdmit'
 import houseManager from '@/view/background/houseManager'
 import tipOffManager from '@/view/background/tipOffManager'
 import userManager from '@/view/background/userManager'
-import dataAnalysis from '@/view/background/dataAnalysis'
+import areaAnalysis from '@/view/background/areaAnalysis'
+import userAnalysis from '@/view/background/userAnalysis'
 
 import test from '@/view/user/contactTest'
 
@@ -72,6 +74,7 @@ export default new Router({
             {path:'comment',name:'我的评论',component:userComment},
             {path:'tipoff',name:'我的评论',component:userTipoff},
             {path:'foot',name:'我的足迹',component:userFoot},
+            {path:'message',name:'消息管理',component:userMessage},
             {path:'changePassword',name:'修改密码',component:changePassword},
             {path:'publishNewRoom',name:'房源发布',component:publishNewRoom},
           ]
@@ -95,7 +98,8 @@ export default new Router({
             {path:'houseManager',name:'房源管理',component:houseManager},
             {path:'userManager',name:'账号管理',component:userManager},
             {path:'tipOffManager',name:'举报管理',component:tipOffManager},
-            {path:'dataAnalysis',name:'数据分析',component:dataAnalysis},
+            {path:'areaAnalysis',name:'区域分析',component:areaAnalysis},
+            {path:'userAnalysis',name:'用户分析',component:userAnalysis},
           ]
         },
         {

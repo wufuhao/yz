@@ -104,7 +104,7 @@ export default {
                         },
                         {
                             name:'消息管理',
-                            url:'/user/myRoom'
+                            url:'/user/message'
                         },
                     ]
                 }
