@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="userMessage-title">
-            <span>我的足迹</span>
+            <span>消息管理</span>
         </div>
         <div id="userMessage">
             <el-table :data="messaeList"  @selection-change="handleSelectionChange">

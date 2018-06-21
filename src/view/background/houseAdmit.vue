@@ -24,8 +24,8 @@
             <el-table-column label="状态" align="center">
                 <template scope="scope">
                     <span v-if="scope.row.dkPubStatus == 0">未审核</span>
-                    <span v-else-if="scope.row.dkPubStatus == 1">发布失败</span>
-                    <span v-else-if="scope.row.dkPubStatus == 2">发布成功</span>
+                    <span v-else-if="scope.row.dkPubStatus == 1">审核未通过</span>
+                    <span v-else-if="scope.row.dkPubStatus == 2">审核通过</span>
                     <span v-else-if="scope.row.dkPubStatus == 3">取消发布</span>
                     <span v-else-if="scope.row.dkPubStatus == 4">已删除</span>
                     <span v-else-if="scope.row.dkPubStatus == 5">已过期</span>
@@ -64,7 +64,7 @@ export default {
                     addressKey:'',
                     dkPubStatus:0,
                 },
-                orderBy: "create_time",
+                orderBy: "dk_pub_status,create_time",
                 asc: true,
                 size: 10
             },
@@ -87,7 +87,8 @@ export default {
             })
         },
         toDetail(hId){
-            
+            sessionStorage.hId = hId;
+            this.$router.push('/room/admit')
         },
     }
 }

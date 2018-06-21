@@ -208,6 +208,7 @@ export default {
         }
     },
     mounted(){
+        console.log(sessionStorage.queryName);
         this.queryParam.model.addressKey = sessionStorage.queryName;
         this.queryParam.model.dkAddArea = sessionStorage.district;
         this.createBaiduMap();
@@ -215,6 +216,7 @@ export default {
     },
     methods:{
         search(){
+            
             this.queryParam.model.subStations = [];
             for(var i = 0 ; i < this.selectSubwayStations.length ; i ++){
                 this.queryParam.model.subStations.push(findSubwayCodeByName(this.selectSubwayStations[i]))

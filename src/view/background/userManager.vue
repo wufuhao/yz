@@ -4,11 +4,6 @@
             <el-form-item label="关键字">
                 <el-input></el-input>
             </el-form-item>
-            <!-- <el-form-item>
-                <el-select>
-                    <el-option value="0" label="正常"></el-option>
-                </el-select>
-            </el-form-item> -->
             <el-form-item>
                 <el-button @click="search" type="primary">搜索</el-button>
             </el-form-item>
@@ -34,9 +29,8 @@
             </el-table-column>
             <el-table-column label="状态" align="center">
                 <template scope="scope">
-                    <!-- <span v-if="scope.row.dkUException == '' || scope.row.dkUException == null">无</span> -->
                     <span v-if="scope.row.dkUException == 0">正常</span>
-                    <span v-else>封禁</span>
+                    <span v-else style="color:red">封禁</span>
                 </template>
             </el-table-column>
             <el-table-column label="操作" align="center">
@@ -64,34 +58,34 @@ export default {
     data(){
         return{
             userList:[
-                {
-                    uId:0,
-                    phoneNo:'13246307464',
-                    name:'xdx',
-                    email:'',
-                    dkUException:0
-                },
-                {
-                    uId:1,
-                    phoneNo:'13246307464',
-                    name:'hzj',
-                    email:'',
-                    dkUException:0
-                },
-                {
-                    uId:2,
-                    phoneNo:'13246307464',
-                    name:'czx',
-                    email:'',
-                    dkUException:0
-                },
-                {
-                    uId:3,
-                    phoneNo:'13246307464',
-                    name:'wfh',
-                    email:'',
-                    dkUException:0
-                },
+                // {
+                //     uId:0,
+                //     phoneNo:'1853447252',
+                //     name:'易租451',
+                //     email:'1853447252@163.com',
+                //     dkUException:1
+                // },
+                // {
+                //     uId:1,
+                //     phoneNo:'18848246753',
+                //     name:'易租482',
+                //     email:'18848246753@163.com',
+                //     dkUException:0
+                // },
+                // {
+                //     uId:2,
+                //     phoneNo:'18333747254',
+                //     name:'易租483',
+                //     email:'18333747254@163.com',
+                //     dkUException:0
+                // },
+                // {
+                //     uId:3,
+                //     phoneNo:'13246307464',
+                //     name:'易租484',
+                //     email:'2465814977@qq.com',
+                //     dkUException:0
+                // },
             ],
             rowsCount:1,
             queryParam:{

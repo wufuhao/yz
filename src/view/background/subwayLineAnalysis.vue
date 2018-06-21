@@ -110,6 +110,24 @@ export default {
                     230,
                     180,
                 ],
+                [
+                    40,
+                    50,
+                    130,
+                    53,
+                    70,
+                    63,
+                    80,
+                ],
+                [
+                    250,
+                    260,
+                    230,
+                    410,
+                    325,
+                    276,
+                    368,
+                ],
             ],
             sevenDay:[
                 "2017-05",
@@ -140,7 +158,7 @@ export default {
                     trigger: 'axis'
                 },
                 legend: {
-                    data:['天河区','海珠区','荔湾区','白云区','番禺区','越秀区','黄埔区','花都区','增城区','南沙区','从化区']
+                    data:['1号线','2号线','3号线','3号线（北延段）','4号线','5号线','6号线','7号线','8号线','9号线','13号线','14号线','APM线','广佛线']
                 },
                 toolbox: {
                     show: true,
@@ -192,7 +210,7 @@ export default {
                 ],
                 series: [
                     {
-                        name:'天河区',
+                        name:'1号线',
                         type:'line',
                         data:this.sevenDate[0],
                         yAxisIndex: 0,
@@ -204,7 +222,7 @@ export default {
                         },
                     },
                     {
-                        name:'海珠区',
+                        name:'2号线',
                         type:'line',
                         data:this.sevenDate[1],
                         yAxisIndex: 0,
@@ -216,7 +234,7 @@ export default {
                         },
                     },
                     {
-                        name:'荔湾区',
+                        name:'3号线',
                         type:'line',
                         data:this.sevenDate[2],
                         yAxisIndex: 0,
@@ -228,7 +246,7 @@ export default {
                         },
                     },
                     {
-                        name:'白云区',
+                        name:'3号线（北延段）',
                         type:'line',
                         data:this.sevenDate[3],
                         yAxisIndex: 0,
@@ -240,7 +258,7 @@ export default {
                         },
                     },
                     {
-                        name:'番禺区',
+                        name:'4号线',
                         type:'line',
                         data:this.sevenDate[4],
                         yAxisIndex: 0,
@@ -252,7 +270,7 @@ export default {
                         },
                     },
                     {
-                        name:'越秀区',
+                        name:'5号线',
                         type:'line',
                         data:this.sevenDate[5],
                         yAxisIndex: 0,
@@ -264,7 +282,7 @@ export default {
                         },
                     },
                     {
-                        name:'黄埔区',
+                        name:'6号线',
                         type:'line',
                         data:this.sevenDate[6],
                         yAxisIndex: 0,
@@ -276,7 +294,7 @@ export default {
                         },
                     },
                     {
-                        name:'花都区',
+                        name:'7号线',
                         type:'line',
                         data:this.sevenDate[7],
                         yAxisIndex: 0,
@@ -288,7 +306,7 @@ export default {
                         },
                     },
                     {
-                        name:'增城区',
+                        name:'8号线',
                         type:'line',
                         data:this.sevenDate[8],
                         yAxisIndex: 0,
@@ -300,7 +318,7 @@ export default {
                         },
                     },
                     {
-                        name:'南沙区',
+                        name:'9号线',
                         type:'line',
                         data:this.sevenDate[9],
                         yAxisIndex: 0,
@@ -312,7 +330,7 @@ export default {
                         },
                     },
                     {
-                        name:'从化区',
+                        name:'13号线',
                         type:'line',
                         data:this.sevenDate[10],
                         yAxisIndex: 0,
@@ -322,7 +340,40 @@ export default {
                                 {type: 'min', name: '最小值'}
                             ]
                         },
-                    }
+                    },{
+                        name:'14号线',
+                        type:'line',
+                        data:this.sevenDate[11],
+                        yAxisIndex: 0,
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                    },{
+                        name:'APM',
+                        type:'line',
+                        data:this.sevenDate[12],
+                        yAxisIndex: 0,
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                    },{
+                        name:'广佛线',
+                        type:'line',
+                        data:this.sevenDate[13],
+                        yAxisIndex: 0,
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                    },
                 ]
             };
             this.myChart.setOption(option);

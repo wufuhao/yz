@@ -8,7 +8,7 @@
         text-color="#fff"
         mode="horizontal">
             <el-menu-item index="/background/userManager">
-                <i class="el-icon-location"></i>
+                <i class="el-icon-menu"></i>
                 <span slot="title">账号管理</span>
             </el-menu-item>
             <el-menu-item index="/background/houseManager">
@@ -16,20 +16,28 @@
                 <span slot="title">房源管理</span>
             </el-menu-item>
             <el-menu-item index="/background/houseAdmit">
-                <i class="el-icon-document"></i>
+                <i class="el-icon-menu"></i>
                 <span slot="title">房源审核</span>
             </el-menu-item>
             <el-menu-item index="/background/tipOffManager">
-                <i class="el-icon-setting"></i>
+                <i class="el-icon-menu"></i>
                 <span slot="title">举报审核</span>
             </el-menu-item>
             <el-menu-item index="/background/userAnalysis">
-                <i class="el-icon-setting"></i>
+                <i class="el-icon-menu"></i>
                 <span slot="title">用户分析</span>
             </el-menu-item>
             <el-menu-item index="/background/areaAnalysis">
-                <i class="el-icon-setting"></i>
+                <i class="el-icon-menu"></i>
                 <span slot="title">区域分析</span>
+            </el-menu-item>
+            <el-menu-item index="/background/subwayLineAnalysis">
+                <i class="el-icon-menu"></i>
+                <span slot="title">地铁线路分析</span>
+            </el-menu-item>
+            <el-menu-item index="/top/index">
+                <i class="el-icon-menu"></i>
+                <span slot="title">用户首页</span>
             </el-menu-item>
         </el-menu>
         <!-- <levelbar class="top-breadcrumb"></levelbar> -->

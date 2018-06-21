@@ -16,7 +16,7 @@
                     <span>{{houseInfo.ctr}}次浏览</span>
                     <span style="margin-left:20px">{{houseInfo.favorite}}次收藏</span>
                     <span style="margin-left:20px">{{houseInfo.tipOff}}次举报</span>
-                    <div style="float:right;margin-top: -8px;">
+                    <!-- <div style="float:right;margin-top: -8px;">
                         <el-button type="text" @click="addMyFavorite">
                             <img src="../../icons/favorite.png" style="height:20px;width:20px;position: relative;top: 2px;" />
                             收藏
@@ -27,7 +27,7 @@
                                 举报
                             </el-button>
                         </el-tooltip>
-                    </div>
+                    </div> -->
                 </el-form-item>
                 <el-form-item class="roomPrice">
                     <span class="price">￥{{houseInfo.rental}}元/月</span>
@@ -133,7 +133,7 @@
 
                     </div>
                 </el-form-item>
-                <el-form-item label="点评" class="comment">
+                <!-- <el-form-item label="点评" class="comment">
                     <el-button type="text" style="z-index:2;position: relative;float: right;margin-right: 10%;top: -20px;" @click="showCommentDialog = true">点评</el-button>
                     <el-row v-for="item in houseComment" :key="item">
                         <div>
@@ -152,8 +152,8 @@
                         </div>
                     </el-row>
                     
-                </el-form-item>
-                <el-form-item>
+                </el-form-item> -->
+                <!-- <el-form-item>
                     <el-pagination
                         class="pagination-middle"
                         background
@@ -162,6 +162,10 @@
                         :page-size="getCommentParam.size"
                         @current-change="currentChange">
                     </el-pagination>
+                </el-form-item> -->
+                <el-form-item>
+                    <el-button type="primary" @click="admit">审核通过</el-button>
+                    <el-button type="primary" @click="unAdmit">审核未通过</el-button>
                 </el-form-item>
             </el-form>
 
@@ -190,6 +194,8 @@
 import {findDkRentalDemandNameByCode,findCostNameByCode,finddDkConfigureNameByCode,findaddareaNameByCode,findSubwayNameByCode} from '@/utils/yz.js'
 import {selectDetail,getHouseCommentPage,commentHouseInfo} from '@/api/room'
 import {collectHouseInfo,tipOffHouse,getUserInfo} from '@/api/user'
+
+import {getHousePage,updateHousePubStatus} from '@/api/background'
 export default {
     data(){
         return{
@@ -294,15 +300,21 @@ export default {
             // map.addControl(top_right_navigation);
         },
         search(){
-            console.log(this.hId);
-            selectDetail({hId:this.hId}).then(res =>{
+            var param = {
+                current: 1,
+                model:{
+                    hId:sessionStorage.hId
+                },
+                size: 1
+            };
+            getHousePage(param).then(res =>{
                 if(res.resultCode == '200'){
                     console.log(res);
-                    this.houseInfo = res.busObj;
-                    this.houseInfo.dkConfigure = res.busObj.dkConfigure.split(",");
-                    this.houseInfo.dkRentalCost = res.busObj.dkRentalCost.split(",");
-                    this.houseInfo.dkRentalDemand = res.busObj.dkRentalDemand.split(",");
-                    this.houseInfo.hImgPath = res.busObj.hImgPath.split(",");
+                    this.houseInfo = res.busObj.records[0];
+                    this.houseInfo.dkConfigure = res.busObj.records[0].dkConfigure.split(",");
+                    this.houseInfo.dkRentalCost = res.busObj.records[0].dkRentalCost.split(",");
+                    this.houseInfo.dkRentalDemand = res.busObj.records[0].dkRentalDemand.split(",");
+                    this.houseInfo.hImgPath = res.busObj.records[0].hImgPath.split(",");
                     console.log(this.houseInfo);
 
                     var new_point = new BMap.Point(this.houseInfo.addLongitude,this.houseInfo.addLatitude);
@@ -313,64 +325,23 @@ export default {
                     document.documentElement.scrollTop = 0;
                 }
             });
-            getHouseCommentPage(this.getCommentParam).then(res=>{
-                if(res.resultCode == '200'){
-                    this.rowsCount = res.busObj.total;
-                    this.houseComment = res.busObj.records
-                }
-            });
 
         },
-        addMyFavorite(){
-            collectHouseInfo({hId:this.hId}).then(res =>{
-                if(res.resultCode == '200'){
-                    this.$message('收藏成功');
-                }
-            })
-        },
-        tipHouse(){
-            tipOffHouse(this.tipOffParam).then(res=>{
+        admit(){
+            updateHousePubStatus({hId:sessionStorage.hId,pubStatus:2}).then(res=>{
                 if(res.resultCode == "200"){
-                    this.$message('举报成功');
-                    this.showTipDialog = false;
+                    this.$message("审批成功");
+                    this.$router.push('/background/houseAdmit');
                 }
             })
         },
-        commentHouse(){
-            commentHouseInfo(this.commentHouseParam).then(res=>{
-                if(res.resultCode == '200'){
-                    this.$message('点评成功');
-                    this.showCommentDialog = false;
-                    getHouseCommentPage(this.getCommentParam).then(res=>{
-                        if(res.resultCode == '200'){
-                            this.rowsCount = res.busObj.total;
-                            this.houseComment = res.busObj.records
-                        }
-                    });
+        unAdmit(){
+            updateHousePubStatus({hId:sessionStorage.hId,pubStatus:1}).then(res=>{
+                if(res.resultCode == "200"){
+                    this.$message("审批成功");
+                    this.$router.push('/background/houseAdmit');
                 }
             })
-        },
-        currentChange(val){
-            this.getCommentParam.current = val;
-            getHouseCommentPage(this.getCommentParam).then(res=>{
-                if(res.resultCode == '200'){
-                    this.rowsCount = res.busObj.total;
-                    this.houseComment = res.busObj.records
-                }
-            });
-        },
-        toContact(uId){
-            getUserInfo({uId:uId}).then(res=>{
-                if(res.resultCode == '200'){
-                    var hUserIdNow = {
-                        uId:res.busObj.uId,
-                        icon:res.busObj.uImgPath,
-                        name:res.busObj.name
-                    };
-                    this.$emit('connHouseUser',hUserIdNow);
-                }
-            })
-            console.log(uId);
         }
     }
 }

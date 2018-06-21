@@ -43,7 +43,7 @@
                         <div class="grid-content bg-purplegrid-content bg-purple indexRoomPic" @click="toDetails(item.hId)" >
                             <img  :src="item.hImgPath.split(',')[0]" style="height:290px;width:390px" /><br/>
                             <span >{{item.title}}</span><br/>
-                            <span>海珠金碧2号东晓南</span>
+                            <!-- <span>海珠金碧2号东晓南</span> -->
                             <span>￥{{item.rental}}/月</span>
                         </div>
                     </el-col>
@@ -77,7 +77,7 @@
                         <div class="grid-content bg-purple indexRoomPic" @click="toDetails(item.hId)">
                             <img  :src="item.hImgPath.split(',')[0]" style="height:290px;width:390px" /><br/>
                             <span >{{item.title}}</span><br/>
-                            <span>海珠金碧2号东晓南</span>
+                            <!-- <span>海珠金碧2号东晓南</span> -->
                             <span>￥{{item.rental}}/月</span>
                         </div>
                     </el-col>
@@ -124,13 +124,13 @@ export default {
             },
             popularHouseQueryParam:{
                 "current": 1,
-                "orderBy": "publish_time",
+                "orderBy": "favorite",
                 "asc":false,
                 "size": 3
             },
             newHouseQueryParam:{
                 "current": 1,
-                "orderBy": "favorite",
+                "orderBy": "publish_time",
                 "asc":false,
                 "size": 3
             },

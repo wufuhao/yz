@@ -48,7 +48,8 @@
             <el-table-column label="操作" align="center">
                 <template scope="scope">
                     <el-button type="text" @click="toDetail(scope.row.hId)">查看</el-button>
-                    <el-button type="text" @click="unForbidUser(scope.row.uId)">解封</el-button>
+                    <el-button type="text" @click="unForbidUser(scope.row.uId)" v-if="scope.row.dkPubStatus == 6">解封</el-button>
+                    <el-button type="text" @click="unForbidUser(scope.row.uId)" v-if="scope.row.dkPubStatus == 2">封禁</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -69,7 +70,51 @@ import {getHousePage,updateHousePubStatus} from '@/api/background'
 export default {
     data(){
         return{
-            houseList:[],
+            houseList:[
+                // {
+                //     title:'广医2栋宿舍',
+                //     contName:'易租451',
+                //     dkPubStatus:0,
+                //     createTime:'2018-05-01'
+                // },
+                // {
+                //     title:'广州火车站附近单间',
+                //     contName:'易租421',
+                //     dkPubStatus:1,
+                //     createTime:'2018-05-01'
+                // },
+                // {
+                //     title:'客村小区一房一厅',
+                //     contName:'易租351',
+                //     dkPubStatus:2,
+                //     createTime:'2018-05-01'
+                // },
+                // {
+                //     title:'西朗全新公寓豪华一房一厅带家电',
+                //     contName:'易租23',
+                //     dkPubStatus:3,
+                //     createTime:'2018-05-15'
+                // },
+                // {
+                //     title:'仑头村5楼单间 10分钟到琶洲、大学城',
+                //     contName:'易租468',
+                //     dkPubStatus:4,
+                //     createTime:'2018-05-21'
+                // },
+                // {
+                //     title:'岗顶附近复式公寓精装修',
+                //     contName:'易租451',
+                //     dkPubStatus:5,
+                //     createTime:'2018-04-01'
+                // },
+                // {
+                //     title:'沙涌地铁站租房电话13258621468',
+                //     contName:'易租451',
+                //     dkPubStatus:6,
+                //     createTime:'2018-03-01'
+                // },
+                    
+            ],
             rowsCount:1,
             queryParam:{
                 current: 1,
@@ -77,6 +122,8 @@ export default {
                     addressKey:'',
                     dkPubStatus:0
                 },
+                orderBy: "create_time",
+                asc: false,
                 size: 10
             },
         }
@@ -98,7 +145,8 @@ export default {
             })
         },
         toDetail(hId){
-            
+            sessionStorage.hId = hId;
+            this.$router.push('/room/detail')
         },
     }
 }

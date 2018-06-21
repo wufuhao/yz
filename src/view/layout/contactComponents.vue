@@ -86,7 +86,7 @@ export default {
         connectWebSocket(){
             var _this = this;
             this.userInfo = JSON.parse(sessionStorage.user)
-            this.ws = new WebSocket('ws://192.168.253.5:8085/yz/chat/'+this.userInfo.uId);
+            this.ws = new WebSocket('ws://47.106.115.158:8085/yz/chat/'+this.userInfo.uId);
             this.ws.onopen = function(event) { 
                 // this.$message('成功连接到易租聊天室')
                 console.log("已连接到易租聊天室");
@@ -139,6 +139,10 @@ export default {
             this.ws.close();
         },
         sendMsg( message ){
+            if(message == ''){
+                this.$message('不能发生空的消息');
+                return;
+            }
             this.ws.send(this.hUserIdNow.uId+">"+message);
             var a = {
                 from:this.userInfo.uId,

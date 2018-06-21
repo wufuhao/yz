@@ -7,36 +7,37 @@
             <el-form-item>
                 <el-button @click="search" type="primary">搜索</el-button>
             </el-form-item>
+            <el-form-item>
+                <el-button @click="search" type="primary">导出</el-button>
+            </el-form-item>
         </el-form>
         <el-table :data="tipList" class="houseTable" >
             <el-table-column label="房源ID" align="center">
                 <template scope="scope">
-                    <span v-if="scope.row.title == '' || scope.row.title == null">无</span>
-                    <span v-else>{{scope.row.title}}</span>
+                    <span v-if="scope.row.hTipOff == '' || scope.row.hTipOff == null">无</span>
+                    <span v-else>{{scope.row.hTipOff}}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="举报ID" align="center">
+            <el-table-column label="举报用户" align="center">
                 <template scope="scope">
-                    <span v-if="scope.row.contName == '' || scope.row.contName == null">无</span>
-                    <span v-else>{{scope.row.contName}}</span>
+                    <span v-if="scope.row.uId == '' || scope.row.uId == null">无</span>
+                    <span v-else>{{scope.row.uId}}</span>
                 </template>
             </el-table-column>
             <el-table-column label="举报内容" prop="hTipOffDesc"></el-table-column>
             <el-table-column label="状态" align="center">
                 <template scope="scope">
-                    <span v-if="scope.row.dkPubStatus == 0">未审核</span>
-                    <span v-else-if="scope.row.dkPubStatus == 1">发布失败</span>
-                    <span v-else-if="scope.row.dkPubStatus == 2">发布成功</span>
-                    <span v-else-if="scope.row.dkPubStatus == 3">取消发布</span>
-                    <span v-else-if="scope.row.dkPubStatus == 4">已删除</span>
-                    <span v-else-if="scope.row.dkPubStatus == 5">已过期</span>
-                    <span v-else>异常封禁</span>
+                    <span v-if="scope.row.dkTipStatus == 1">未审核</span>
+                    <span v-else-if="scope.row.dkTipStatus == 2">审核中</span>
+                    <span v-else-if="scope.row.dkTipStatus == 3">审核成功</span>
+                    <span v-else-if="scope.row.dkTipStatus == 4">审核失败</span>
                 </template>
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template scope="scope">
-                    <el-button type="text" @click="toDetail(scope.row.hId)">查看并审核</el-button>
+                    <el-button type="text" @click="toDetail(scope.row.hId)" v-if="scope.row.dkTipStatus == 1 || scope.row.dkTipStatus == 2">查看并审核</el-button>
+                    <el-button type="text" @click="toDetail(scope.row.hId)" v-else>查看</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -57,7 +58,36 @@ import {getTipOffPage,updateTipStatus} from '@/api/background'
 export default {
     data(){
         return{
-            tipList:[],
+            tipList:[
+                // {
+                //     hTipOff:'133',
+                //     uId:'易租388',
+                //     hTipOffDesc:'虚假房源，中介推销',
+                //     dkTipStatus:1,
+                //     createTime:'2018'
+                // },
+                // {
+                //     hTipOff:'334',
+                //     uId:'易租238',
+                //     hTipOffDesc:'虚假房源，中介推销',
+                //     dkTipStatus:2,
+                //     createTime:'2018'
+                // },
+                // {
+                //     hTipOff:'257',
+                //     uId:'易租388',
+                //     hTipOffDesc:'虚假房源，中介推销',
+                //     dkTipStatus:3,
+                //     createTime:'2018'
+                // },
+                // {
+                //     hTipOff:'23',
+                //     uId:'易租388',
+                //     hTipOffDesc:'虚假房源，中介推销',
+                //     dkTipStatus:4,
+                //     createTime:'2018'
+                // }
+            ],
             rowsCount:1,
             queryParam:{
                 current: 1,

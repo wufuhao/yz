@@ -24,6 +24,7 @@ import publishNewRoom from '@/view/room/publishNewRoom'
 import roomSearch from '@/view/room/roomSearch'
 import roomDetail from '@/view/room/roomDetail'
 import roomCompare from '@/view/room/roomCompare'
+import roomAdmit from '@/view/room/roomAdmit'
 
 
 import backgroundLogin from '@/view/background/login'
@@ -33,6 +34,7 @@ import tipOffManager from '@/view/background/tipOffManager'
 import userManager from '@/view/background/userManager'
 import areaAnalysis from '@/view/background/areaAnalysis'
 import userAnalysis from '@/view/background/userAnalysis'
+import subwayLineAnalysis from '@/view/background/subwayLineAnalysis'
 
 import test from '@/view/user/contactTest'
 
@@ -87,6 +89,7 @@ export default new Router({
             {path:'search',name:'搜索',component:roomSearch},
             {path:'detail',name:'详情',component:roomDetail},
             {path:'compare',name:'对比',component:roomCompare},
+            {path:'admit',name:'审核',component:roomAdmit},
           ]
         },
         {
@@ -100,6 +103,7 @@ export default new Router({
             {path:'tipOffManager',name:'举报管理',component:tipOffManager},
             {path:'areaAnalysis',name:'区域分析',component:areaAnalysis},
             {path:'userAnalysis',name:'用户分析',component:userAnalysis},
+            {path:'subwayLineAnalysis',name:'地铁线路分析',component:subwayLineAnalysis},
           ]
         },
         {
